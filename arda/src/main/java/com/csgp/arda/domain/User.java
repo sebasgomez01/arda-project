@@ -58,8 +58,8 @@ public class User {
     private Set<Post> reposts;
 
     // establezco la relación con la entidad Comment
-    //@OneToMany(cascade=CascadeType.ALL, mappedBy="user")    
-    //private List<Comment> comments;  
+    @OneToMany(cascade=CascadeType.ALL, mappedBy="user")    
+    private List<Comment> comments;  
 
     // Constructores
     public User() {
