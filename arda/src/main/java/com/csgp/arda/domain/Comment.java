@@ -25,19 +25,42 @@ public class Comment {
 
     private String textContent;
     
-    // relación con la entidad User para los posts
+    // relación con la entidad User para identificar al usuario que hizo el comentario
     @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="user_id")
     private User user;
+
+    
+    // relación con la entidad Post para identificar a qué post pertenece el comentario
+    @ManyToOne(fetch=FetchType.EAGER)
+    @JoinColumn(name="post_id")
+    private Post post;
+
+    // relación con otro comentario para modelar las respuestas a un comentario
+    @ManyToOne
+    @JoinColumn(name = "parent_comment_id")
+    private Comment parentComment;
+
+    @OneToMany(mappedBy = "parentComment")
+    private List<Comment> replies;
+
+    // relación con la entidad User para los likes del comentario
+    @ManyToMany(mappedBy = "likedComments", fetch = FetchType.LAZY)
+    private Set<User> likes;
+
+    // relación con la entidad User para los dislikes del comentario
+    @ManyToMany(mappedBy = "dislikedComments", fetch = FetchType.LAZY)
+    private Set<User> dislikes;
 
     // Constructores
     public Comment() {
     }
 
-    public Comment(String textContent, User user) {
+    public Comment(String textContent, User user, Post post) {
         super();
         this.textContent = textContent;
         this.user = user;    
+        this.post = post;
     }
 
     // Getters y Setters

@@ -48,6 +48,15 @@ public class User {
     )
     private Set<Post> likedPosts;
 
+    // relación con la entidad Post para los dislikes
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable( 
+        name = "user_disliked_posts",
+        joinColumns = @JoinColumn(name = "user_id"),
+        inverseJoinColumns = @JoinColumn(name = "post_id")
+    )
+    private Set<Post> dislikedPosts;
+
     // relación con la entidad Post para los posts reposteados
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
@@ -60,6 +69,25 @@ public class User {
     // establezco la relación con la entidad Comment
     @OneToMany(cascade=CascadeType.ALL, mappedBy="user")    
     private List<Comment> comments;  
+
+    // relación con la entidad Post para los comentarios likeados por el usuario
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+        name = "user_liked_comments",
+        joinColumns = @JoinColumn(name = "user_id"),
+        inverseJoinColumns = @JoinColumn(name = "comment_id")
+    )
+    private Set<Comment> likedComments;
+
+    // relación con la entidad Post para los comentarios dislikeados por el usuario
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+        name = "user_disliked_comments",
+        joinColumns = @JoinColumn(name = "user_id"),
+        inverseJoinColumns = @JoinColumn(name = "comment_id")
+    )
+    private Set<Comment> dislikedComments;
+
 
     // Constructores
     public User() {

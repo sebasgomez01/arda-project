@@ -36,9 +36,17 @@ public class Post {
     @ManyToMany(mappedBy = "likedPosts", fetch = FetchType.LAZY)
     private Set<User> likes;
 
+    // relación con la entidad User para los dislikes
+    @ManyToMany(mappedBy = "dislikedPosts", fetch = FetchType.LAZY)
+    private Set<User> dislikes;
+
     // relación con la entidad User para los reposts
     @ManyToMany(mappedBy = "reposts", fetch = FetchType.LAZY)
     private Set<User> reposts;
+
+    // establezco la relación con la entidad Comment para saber cuáles son los comentarios del post
+    @OneToMany(cascade=CascadeType.ALL, mappedBy="post")    
+    private List<Comment> comments;  
 
     // Constructores
     public Post() {
