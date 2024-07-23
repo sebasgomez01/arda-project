@@ -14,9 +14,12 @@ import java.util.List;
 import java.util.Set;
 import java.util.ArrayList;
 import java.util.HashSet;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 public class User {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
@@ -36,7 +39,9 @@ public class User {
     private String role;
      
     // establezco la relación con la entidad Post
+    @JsonIgnore
     @OneToMany(cascade=CascadeType.ALL, mappedBy="user")    
+    //@JsonManagedReference
     private List<Post> posts;   
 
     // relación con la entidad Post para los posts likeados

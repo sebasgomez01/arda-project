@@ -48,8 +48,8 @@ public class ArdaApplication implements CommandLineRunner {
 
 		for(Post post : prepository.findAll()) {
 			User owner = post.getUser();
-			String username = owner.getUsername();
-			logger.info("title {}, text-content {}, user {}", post.getTitle(), post.getTextContent(), username);
+			//String username = owner.getUsername();
+			logger.info("title {}, text-content {}", post.getTitle(), post.getTextContent());
 			
 		}
 

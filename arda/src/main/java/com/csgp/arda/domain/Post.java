@@ -14,6 +14,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.HashSet;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 
 @Entity
@@ -28,8 +29,9 @@ public class Post {
     private String textContent;
      
     // relación con la entidad User para los posts
-    @ManyToOne(fetch=FetchType.EAGER)
+    @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="user_id")
+    //@JsonBackReference
     private User user;
 
     // relación con la entidad User para los likes
