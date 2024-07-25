@@ -39,18 +39,15 @@ import com.nimbusds.jose.proc.SecurityContext;
 
 import static org.springframework.security.config.Customizer.*;
 
-import com.csgp.arda.service.*;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
     private final RsaKeyProperties rsaKeys;
-    private final CustomUserDetailsService customUserDetailsService;
 
-    public SecurityConfig(RsaKeyProperties rsaKeys, CustomUserDetailsService customUserDetailsService) {
+    public SecurityConfig(RsaKeyProperties rsaKeys) {
         this.rsaKeys = rsaKeys;
-        this.customUserDetailsService = customUserDetailsService;
     }
 
     @Bean
@@ -68,11 +65,9 @@ public class SecurityConfig {
                 .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Spring Security will never create an HttpSession and it will never use it to obtain the Security Context.
                 .httpBasic(Customizer.withDefaults()) // Spring Security’s HTTP Basic Authentication support is enabled by default. However, as soon as any servlet-based configuration is provided, HTTP Basic must be explicitly provided.
-                .userDetailsService(customUserDetailsService) // Usar el servicio personalizado
                 .build();
     }
 
-    /* 
     @Bean
     public InMemoryUserDetailsManager users() {
         return new InMemoryUserDetailsManager(
@@ -82,8 +77,7 @@ public class SecurityConfig {
                         .build()
         );
     }
-    */
-    
+
     @Bean 
     JwtEncoder JwtEncoder() {
         JWK jwk = new RSAKey.Builder(rsaKeys.publicKey()).privateKey(rsaKeys.privateKey()).build();
