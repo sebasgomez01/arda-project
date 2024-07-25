@@ -9,11 +9,8 @@ import com.csgp.arda.domain.User;
 import com.csgp.arda.domain.UserRepository;
 import com.csgp.arda.domain.Post;
 import com.csgp.arda.domain.PostRepository;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import com.csgp.arda.config.RsaKeyProperties;
 
 @SpringBootApplication
-@EnableConfigurationProperties(RsaKeyProperties.class)
 public class ArdaApplication implements CommandLineRunner {
 
 	private static final Logger logger = LoggerFactory.getLogger(ArdaApplication.class);
