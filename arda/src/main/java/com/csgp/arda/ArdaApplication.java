@@ -29,8 +29,10 @@ public class ArdaApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		User user1 = new User("Sebastián", "kamikaze", "abc123", "admin");
-		User user2 = new User("José", "pepe", "123abc", "user");
+		User user1 = new User("Sebastián", "kamikaze", 
+			"$2y$10$ff6hx3JlXkooLTDj2vAFF.hOgLTBLuwD2YpMIybEG3NKzgcmfqvX6", "admin");
+		User user2 = new User("José", "pepe",
+		 	"$2y$10$iZGaBUnXuYhAUoL5LpqzOubru4KO.jlGR4cRTE4/qygyJrTUtUx3O", "user");
 
 		repository.save(user1);
 		repository.save(user2);
