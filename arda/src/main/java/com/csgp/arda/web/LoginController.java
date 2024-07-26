@@ -12,13 +12,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.csgp.arda.domain.AccountCredentials;
 import com.csgp.arda.service.JwtService;
+import org.springframework.http.HttpMethod;
+
 
 @RestController
 public class LoginController {
-    private final JwtService JwtService;
+    private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
-    public LoginController(JwtService jwtService) {
+    public LoginController(JwtService jwtService, AuthenticationManager authenticationManager) {
         this.jwtService = jwtService;
         this.authenticationManager = authenticationManager;
     }
@@ -34,7 +36,7 @@ public class LoginController {
         String jwts = jwtService.getToken(auth.getName());
         
         // Construyo la respuesta con el token generado
-        return ResponseEntity.ok().header(HttpHeaders.AUTHORIZATION, "Bearer" + jwts).header(HttpHeaders.
+        return ResponseEntity.ok().header(HttpHeaders.AUTHORIZATION, "Bearer " + jwts).header(HttpHeaders.
             ACCESS_CONTROL_EXPOSE_HEADERS, "Authorization").build();
     }
 
