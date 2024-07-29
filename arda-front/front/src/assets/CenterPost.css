@@ -1,0 +1,64 @@
+.centerPostContainer {
+    display: flex;
+    flex-direction: row;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    column-gap: 10px;
+}
+
+.centerPostProfileImgContainer {
+    width: 8%;
+    padding-top: 15px;
+    padding-left: 12px;
+}
+
+.centerPostProfileImg {
+    width: 100%;
+    border-radius: 100%;
+}
+
+.centerPostContentAuthorInfo {
+    margin: 0;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.centerPostContentContainer {
+    width: 92%;
+    padding-top: 15px;
+    /*adding-bottom: 15px;*/
+}
+
+.centerPostContent {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.centerPostContentText {
+    width: 97%;
+    margin-top: 0;
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 0;
+}
+
+.centerPostImage {
+    width: 97%;
+    border-radius: 3%;
+}
+
+.centerPostImgInfo {
+    margin: 0;
+}
+
+.centerPostButtons {
+    width: 97%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+.postButton {
+    background-color: black;
+    width: 20%;
+}

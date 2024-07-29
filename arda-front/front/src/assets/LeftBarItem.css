@@ -1,0 +1,15 @@
+.leftBarItemContainer {
+    display: flex;
+    width: 70%;
+}
+
+.leftBarItemIcon {
+    width: 20%;
+}
+
+.leftBarItemText {
+    display:flex;
+    justify-content: left;
+    width: 80%;
+    margin-bottom: 0;
+}

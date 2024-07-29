@@ -1,0 +1,41 @@
+body {
+  width: 100%;
+  height: 100%;
+  background-color: black;
+}
+
+#root {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: row;
+  background-color: black;
+}
+
+.left {
+  display: flex;
+  flex-direction: column;
+  background-color: black;
+  width: 25%;
+  height: 100%;
+  align-items: center;
+  justify-content: left;
+}
+
+.center { 
+  display:flex;
+  flex-direction: column;
+  width: 45%;
+  background-color: black;
+  border-right: 1px solid rgba(255, 255, 255, 0.3);
+  border-left: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.logo {
+  text-align: left;
+  width: 70%;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+

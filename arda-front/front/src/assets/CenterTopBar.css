@@ -1,0 +1,11 @@
+.centerTopBarContainer {
+    display: flex;
+    justify-content: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    height: 10%;
+}
+
+.centerTopBarButton {
+    width: 50%;
+    background-color: black;
+}
