@@ -21,7 +21,7 @@ public class UserRepositoryTest {
     void saveUser() {
         repository.save(new User("Lucy", "paltaAguada", "abcdef", "user"));
         //boolean value = repository.findByName("Lucy").isPresent();
-        assertThat(repository.findByName("Lucy")).isNotEmpty();
+        assertThat(repository.findByName("Lucy")).isNotNull();
     }
 
     @Test

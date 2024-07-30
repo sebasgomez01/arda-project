@@ -49,6 +49,22 @@ public class SecurityConfig {
         return authConfig.getAuthenticationManager();
     }
 
+     
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration config = new CorsConfiguration();
+        // permito todos los orígenes, todos los métodos y todos los headers
+        // ESTO TENGO QUE CAMBIARLO DESPUÉS ANTES DE HACER EL DEPLOY, UNA VEZ QUE TENGO EL FRONTEND 
+        config.setAllowedOrigins(Arrays.asList("*"));
+        config.setAllowedMethods(Arrays.asList("*"));
+        config.setAllowedHeaders(Arrays.asList("*"));
+        config.setAllowCredentials(false);
+        config.applyPermitDefaultValues();
+        source.registerCorsConfiguration("/**", config);
+        return source;
+    }
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
@@ -71,18 +87,6 @@ public class SecurityConfig {
     
     }
 
-    public CorsConfigurationSource corsConfigurationSource() {
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        CorsConfiguration config = new CorsConfiguration();
-        // permito todos los orígenes, todos los métodos y todos los headers
-        // ESTO TENGO QUE CAMBIARLO DESPUÉS ANTES DE HACER EL DEPLOY, UNA VEZ QUE TENGO EL FRONTEND 
-        config.setAllowedOrigins(Arrays.asList("*"));
-        config.setAllowedMethods(Arrays.asList("*"));
-        config.setAllowedHeaders(Arrays.asList("*"));
-        config.setAllowCredentials(false);
-        config.applyPermitDefaultValues();
-        source.registerCorsConfiguration("/**", config);
-        return source;
-    }
-
+    
+   
 }

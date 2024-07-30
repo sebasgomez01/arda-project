@@ -3,6 +3,7 @@ import LeftBarPostButton from "./LeftBarPostButton";
 import CenterPost from "./CenterPost";
 import CenterNewPost from "./CenterNewPost";
 import CenterTopBar from "./CenterTopBar";
+import axios from "axios";
 
 
 let propsCenterPost1 = {
@@ -18,6 +19,11 @@ let propsCenterPost2 = {
     user: "kamikaze",
     imageBool: true
 }
+
+const apiURL: string = "https://sturdy-space-giggle-679gg695r6phrggw-8080.app.github.dev";
+axios.get(apiURL + "/api")
+.then(response => console.log(response))
+.catch(error => console.log(error))
 
 const Home = () => {
     return (
