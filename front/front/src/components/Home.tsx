@@ -21,7 +21,7 @@ let propsCenterPost2 = {
 }
 
 const apiURL: string = "https://sturdy-space-giggle-679gg695r6phrggw-8080.app.github.dev";
-axios.get(apiURL + "/api")
+axios.get(apiURL + "/api/posts/1")
 .then(response => console.log(response))
 .catch(error => console.log(error))
 

@@ -9,6 +9,8 @@ import com.csgp.arda.domain.User;
 import com.csgp.arda.domain.UserRepository;
 import com.csgp.arda.domain.Post;
 import com.csgp.arda.domain.PostRepository;
+import com.csgp.arda.domain.AppUser;
+import com.csgp.arda.domain.AppUserRepository;
 
 @SpringBootApplication
 public class ArdaApplication implements CommandLineRunner {
@@ -17,10 +19,12 @@ public class ArdaApplication implements CommandLineRunner {
 
 	private final UserRepository repository;
 	private final PostRepository prepository;
+	private final AppUserRepository appUserRepository;
 
-	public ArdaApplication(UserRepository repository, PostRepository prepository) {
+	public ArdaApplication(UserRepository repository, PostRepository prepository, AppUserRepository appUserRepository) {
 		this.repository = repository;
 		this.prepository = prepository;
+		this.appUserRepository = appUserRepository;
 	}
 
 	public static void main(String[] args) {
@@ -29,24 +33,30 @@ public class ArdaApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		User user1 = new User("Sebastián", "kamikaze", 
-			"$2y$10$ff6hx3JlXkooLTDj2vAFF.hOgLTBLuwD2YpMIybEG3NKzgcmfqvX6", "admin");
-		User user2 = new User("José", "pepe",
+		User user1 = new User("Sebastián", "kamikaze");
+		AppUser appUser1 = new AppUser("Sebastián", "kamikaze", 
+		"$2y$10$ff6hx3JlXkooLTDj2vAFF.hOgLTBLuwD2YpMIybEG3NKzgcmfqvX6", "admin");
+
+		User user2 = new User("José", "pepe");
+		AppUser appUser2 = new AppUser("José", "pepe",
 		 	"$2y$10$iZGaBUnXuYhAUoL5LpqzOubru4KO.jlGR4cRTE4/qygyJrTUtUx3O", "user");
 
+
 		repository.save(user1);
+		appUserRepository.save(appUser1);
 		repository.save(user2);
+		appUserRepository.save(appUser2);
 
 		for(User user : repository.findAll()) {
 			logger.info("name {}, username {}", user.getName(), user.getUsername());
 		}
 
-		Post post1 = new Post("Tengo chafa?", "Eso, que si tengo chafa", user2);
+		Post post1 = new Post("hoolaa", "buenas, cómo va? estoy probando los posts.", user2);
 		prepository.save(post1);
 		user2.getPosts().add(post1);
 		user1.getLikedPosts().add(post1);
 		post1.getLikes().add(user1);
-		prepository.save(new Post("El anon escuchó in absentia?", "Discazo, obra maestra de porcupine tree.", user1));
+		prepository.save(new Post("Escucharon in absentia de porcupine tree?", "es un discazo, obra de arte.", user1));
 
 		for(Post post : prepository.findAll()) {
 			User owner = post.getUser();

@@ -31,13 +31,7 @@ public class User {
 
     @Column(nullable=false, unique=true)
     private String username;
-
-    @Column(nullable=false)
-    private String password;
-
-    @Column(nullable=false)
-    private String role;
-     
+ 
     // establezco la relación con la entidad Post
     @JsonIgnore
     @OneToMany(cascade=CascadeType.ALL, mappedBy="user")    
@@ -99,12 +93,10 @@ public class User {
 
     }   
     
-    public User(String name, String username, String password, String role) {
+    public User(String name, String username) {
         super();
         this.name = name;
         this.username = username;
-        this.password = password;
-        this.role = role;
         this.posts = new ArrayList<Post>();
         this.likedPosts = new HashSet<Post>();
     }
@@ -131,22 +123,6 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
     }
 
     public List<Post> getPosts() {
