@@ -29,7 +29,7 @@ public class Post {
     private String textContent;
      
     // relación con la entidad User para los posts
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="user_id")
     //@JsonBackReference
     private User user;

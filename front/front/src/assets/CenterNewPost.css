@@ -24,8 +24,23 @@
     row-gap: 7px;
 }
 
+
 .centerNewPostContentForm {
     width: 100%;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+
+.centerNewPostContentTitle {
+    background-color: black;
+    width: 100%;
+    border: none;
+    font-size: 20px;
+    padding:5px;
+    outline: none;
+    resize: none;
+    overflow: hidden;
+    height: 20%;
     border-bottom: 1px solid rgba(255, 255, 255, 0.3);
 }
 
