@@ -9,8 +9,8 @@ import com.csgp.arda.domain.User;
 import com.csgp.arda.domain.UserRepository;
 import com.csgp.arda.domain.Post;
 import com.csgp.arda.domain.PostRepository;
-import com.csgp.arda.domain.AppUser;
-import com.csgp.arda.domain.AppUserRepository;
+import com.csgp.arda.domain.UserCredentials;
+import com.csgp.arda.domain.UserCredentialsRepository;
 
 @SpringBootApplication
 public class ArdaApplication implements CommandLineRunner {
@@ -19,12 +19,12 @@ public class ArdaApplication implements CommandLineRunner {
 
 	private final UserRepository repository;
 	private final PostRepository prepository;
-	private final AppUserRepository appUserRepository;
+	private final UserCredentialsRepository userCredentialsRepository;
 
-	public ArdaApplication(UserRepository repository, PostRepository prepository, AppUserRepository appUserRepository) {
+	public ArdaApplication(UserRepository repository, PostRepository prepository, UserCredentialsRepository userCredentialsRepository) {
 		this.repository = repository;
 		this.prepository = prepository;
-		this.appUserRepository = appUserRepository;
+		this.userCredentialsRepository = userCredentialsRepository;
 	}
 
 	public static void main(String[] args) {
@@ -34,18 +34,18 @@ public class ArdaApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		User user1 = new User("Sebastián", "kamikaze");
-		AppUser appUser1 = new AppUser("Sebastián", "kamikaze", 
+		UserCredentials appUser1 = new UserCredentials("Sebastián", "kamikaze", 
 		"$2y$10$ff6hx3JlXkooLTDj2vAFF.hOgLTBLuwD2YpMIybEG3NKzgcmfqvX6", "admin");
 
 		User user2 = new User("José", "pepe");
-		AppUser appUser2 = new AppUser("José", "pepe",
+		UserCredentials appUser2 = new UserCredentials("José", "pepe",
 		 	"$2y$10$iZGaBUnXuYhAUoL5LpqzOubru4KO.jlGR4cRTE4/qygyJrTUtUx3O", "user");
 
 
 		repository.save(user1);
-		appUserRepository.save(appUser1);
+		userCredentialsRepository.save(appUser1);
 		repository.save(user2);
-		appUserRepository.save(appUser2);
+		userCredentialsRepository.save(appUser2);
 
 		for(User user : repository.findAll()) {
 			logger.info("name {}, username {}", user.getName(), user.getUsername());

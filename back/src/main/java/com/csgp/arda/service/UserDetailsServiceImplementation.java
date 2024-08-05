@@ -12,19 +12,19 @@ import com.csgp.arda.domain.*;
 @Service
 public class UserDetailsServiceImplementation implements UserDetailsService {
 
-    private final AppUserRepository appUserRepository;
+    private final UserCredentialsRepository userCredentialsRepository;
 
-    public UserDetailsServiceImplementation(AppUserRepository appUserRepository) {
-        this.appUserRepository = appUserRepository;
+    public UserDetailsServiceImplementation(UserCredentialsRepository userCredentialsRepository) {
+        this.userCredentialsRepository = userCredentialsRepository;
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        AppUser user = appUserRepository.findByUsername(username);
+        UserCredentials user = userCredentialsRepository.findByUsername(username);
 
         UserBuilder builder = null;
         if(user != null) {
-            AppUser currentUser = user;
+            UserCredentials currentUser = user;
             builder = org.springframework.security.core.userdetails.
                         User.withUsername(username);
             builder.password(currentUser.getPassword());

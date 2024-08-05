@@ -8,28 +8,39 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
  
 import com.csgp.arda.domain.*;
 
-@Service
+//@Service
+@Component
 public class UserService {
 
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final AppUserRepository appUserRepository;
+    private final UserCredentialsRepository UserCredentialsRepository;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, AppUserRepository appUserRepository) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, UserCredentialsRepository UserCredentialsRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
-        this.appUserRepository = appUserRepository;
+        this.UserCredentialsRepository = UserCredentialsRepository;
     }
 
-    public User createUser(String username, String name, String password) {
+    public User createUser(String username, String name) {
         User user = new User();
         user.setUsername(username);
         user.setName(name);
         //user.setPassword(passwordEncoder.encode(password)); // Encriptar la contraseña
         return userRepository.save(user);
+    }
+
+    public UserCredentials createAppUser(String username, String name, String password, String role) {
+        UserCredentials appUser = new UserCredentials();
+        appUser.setUsername(username);
+        appUser.setName(name);
+        appUser.setPassword(password);
+        appUser.setRole(role);
+        return UserCredentialsRepository.save(appUser);
     }
 }

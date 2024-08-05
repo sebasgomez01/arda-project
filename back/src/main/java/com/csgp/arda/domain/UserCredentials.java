@@ -20,7 +20,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
-public class AppUser {
+public class UserCredentials {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     @Column(nullable=false, updatable=false)
@@ -39,11 +39,11 @@ public class AppUser {
     private String role;
 
     // Constructores
-    public AppUser() {
+    public UserCredentials() {
 
     }   
     
-    public AppUser(String name, String username, String password, String role) {
+    public UserCredentials(String name, String username, String password, String role) {
         super();
         this.name = name;
         this.username = username;
