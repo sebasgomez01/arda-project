@@ -36,17 +36,11 @@ const Home = () => {
             <div className="left">
                 <h1 className='logo'>arda</h1>
                 <LeftBarItem text='Inicio' />
-                <LeftBarItem text='EXplorar' />
                 <LeftBarItem text='Noficaciones' />
-                <LeftBarItem text='Mensajes' />
-                <LeftBarItem text='Grook' />
-                <LeftBarItem text='Comunidades' />
                 <LeftBarItem text='Perfil' />
-                <LeftBarItem text='Más opciones' />
                 <LeftBarPostButton />
             </div>
             <div className="center">
-                <CenterTopBar/>
                 <CenterNewPost />
                 <Postlist />
             </div>
@@ -67,4 +61,12 @@ export default Home;
                             user={ propsCenterPost2.user} imageBool={ propsCenterPost2.imageBool}/>
                 <CenterPost title={ propsCenterPost2.title}  textContent={ propsCenterPost2.textContent}
                             user={ propsCenterPost2.user} imageBool={ propsCenterPost2.imageBool}/>
+*/
+
+/* 
+    <LeftBarItem text='EXplorar' /> 
+                <LeftBarItem text='Mensajes' />
+                <LeftBarItem text='Grook' />
+                <LeftBarItem text='Comunidades' />
+                <LeftBarItem text='Más opciones' />
 */

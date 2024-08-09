@@ -87,6 +87,23 @@ public class User {
     )
     private Set<Comment> dislikedComments;
 
+    // establezco relación ManyToMany entre User y Notification
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+        name = "user_notification",
+        joinColumns = @JoinColumn(name = "user_id"),
+        inverseJoinColumns = @JoinColumn(name = "notification_id")
+    )
+    private Set<Notification> notifications;
+
+    // establezco relacion ManyToMany entre User y User para modelar los seguidores de un usuario
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+        name = "user_follower",
+        joinColumns = @JoinColumn(name = "user_id"),
+        inverseJoinColumns = @JoinColumn(name = "follower_id")
+    )
+    private Set<User> followers;
 
     // Constructores
     public User() {

@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import axios from 'axios';
 import '../assets/CreateAccount.css'
+import { useNavigate, Link } from 'react-router-dom'; // para redigirigir a otra página
 
 const CreateAccount = () => {
     const [name, setName] = useState('');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const navigate = useNavigate();
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -32,6 +34,9 @@ const CreateAccount = () => {
         } catch (error) {
             console.error('Error creating post:', error);
         }
+
+        
+        navigate( "/login", { state: { fromCreateAccount: true } });
     }
 
     return (
@@ -74,7 +79,7 @@ const CreateAccount = () => {
                             required>
                         </input>
                         <button className='loginModalButtons loginModalSignInButton' type="submit">Create account</button>
-                        <p className='loginFormPElem'>Already have an account? <a>Login</a> </p>
+                        <p className='loginFormPElem'>Already have an account? <Link to="/login" >Login</Link> </p>
                     </form>
                     
                 </div>
