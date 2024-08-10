@@ -19,6 +19,7 @@
 
 .centerNewPostContent {
     width: 92%;
+    height: auto;
     display: flex;
     flex-direction: column;
     row-gap: 7px;
@@ -28,6 +29,8 @@
 .centerNewPostContentForm {
     width: 100%;
     border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 0;
+    
 }
 
 
@@ -53,11 +56,13 @@
     outline: none;
     resize: none;
     overflow: hidden;
+    margin-bottom: 0;
 }
 
 .centerNewPostImage {
     width: 100%;
-    height: 70%;
+    margin: 0;
+    border-radius: 20px;
 }
 
 .centerNewPostContentButtons {

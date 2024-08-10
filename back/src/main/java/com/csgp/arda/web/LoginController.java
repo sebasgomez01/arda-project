@@ -1,6 +1,6 @@
 package com.csgp.arda.web;
 
-import javax.naming.AuthenticationException;
+
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.csgp.arda.domain.AccountCredentials;
 import com.csgp.arda.service.JwtService;
-import org.springframework.http.HttpMethod;
+
 
 
 @RestController

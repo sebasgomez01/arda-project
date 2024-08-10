@@ -59,7 +59,7 @@ public class ArdaApplication implements CommandLineRunner {
 		prepository.save(new Post("Escucharon in absentia de porcupine tree?", "es un discazo, obra de arte.", user1));
 
 		for(Post post : prepository.findAll()) {
-			User owner = post.getUser();
+			//User owner = post.getUser();
 			//String username = owner.getUsername();
 			logger.info("title {}, text-content {}", post.getTitle(), post.getTextContent());
 			

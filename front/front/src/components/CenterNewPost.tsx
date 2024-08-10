@@ -51,8 +51,8 @@ const CenterNewPost = () => {
                         value={textContent}
                         onChange={(e) => setTextContent(e.target.value)}>
                     </textarea>
-                    { imageBool && <img className='centerNewPostImage' src={image}></img> }
                 </form>
+                { imageBool && <img className='centerNewPostImage' src={image}></img> }
                 <div className="centerNewPostContentButtons">
                     <div className="centerNewPostContentButtonsMultimedia">
                         <input 
