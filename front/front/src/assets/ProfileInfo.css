@@ -1,0 +1,59 @@
+.profileInfo {
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    row-gap: 20px;
+    padding: 10px;
+}
+
+.profileInfoContainer {
+    display: flex;
+    flex-direction: row;
+    column-gap: 0;
+    justify-content: space-between;
+}
+
+.profilePicture {
+    width: 30%;
+    border-radius: 15px;
+}
+
+.profileDetails {
+    width: 35%;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+}
+
+.profileActions {
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    row-gap: 10px;
+}
+
+.profileInfoButtonsContainer {
+    display: flex;
+    flex-direction: row;
+    column-gap: 10px;
+}
+
+.profileInfoButton {
+    
+    border-radius: 15px;
+}
+
+.configurationButton, .notificationButton, .followButton {
+    background-color: deepskyblue;
+}
+
+.configurationButton {
+    width: 100%;
+    grid-row-start: 1;
+    grid-row-end: 1;
+}
+
+.withoutMargin {
+    margin: 0;
+}
