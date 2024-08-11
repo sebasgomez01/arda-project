@@ -5,11 +5,15 @@ import axios from 'axios';
 const CenterNewPost = () => {
     const [title, setTitle] = useState('');
     const [textContent, setTextContent] = useState('');
-    const [image, setImage] = useState('');  // Nuevo estado para la imagen
+    const [selectedFile, setSelectedFile] = useState<File | null>(null);  // Nuevo estado para la imagen
+    const [previewImage, setPreviewImage] = useState<string | null>(null); // estado para el link temporal a la imagen
     const [imageBool, setImageBool] = useState(false);
 
      const handleSubmit = async (event) => {
         event.preventDefault();
+
+        // Primero sube la imagen si hay un archivo seleccionado
+        await handleUpload();
 
         const postData = {
             title: title,
@@ -26,10 +30,33 @@ const CenterNewPost = () => {
         }
     }
 
-    const handleImageUpload = (e) => {
-        setImage(URL.createObjectURL(e.target.files[0]))
-        setImageBool(true);
-    }
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (event.target.files && event.target.files.length > 0) {
+            const file = event.target.files[0];
+            setSelectedFile(file);
+            setImageBool(true);
+            setPreviewImage(URL.createObjectURL(file)); // Genera una URL temporal para la previsualización
+        }
+    };
+
+    const handleUpload = async () => {
+        if (!selectedFile) return;
+
+        const formData = new FormData();
+        formData.append('file', selectedFile);
+        setPreviewImage(null);
+
+        try {
+            const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/posts/image`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+            console.log('Image uploaded successfully:', response.data);
+        } catch (error) {
+            console.error('Error uploading image:', error);
+        }
+    };
 
     return (
         <div className='centerNewPostContainer'>
@@ -52,7 +79,7 @@ const CenterNewPost = () => {
                         onChange={(e) => setTextContent(e.target.value)}>
                     </textarea>
                 </form>
-                { imageBool && <img className='centerNewPostImage' src={image}></img> }
+                { previewImage && <img className='centerNewPostImage' src={previewImage} alt="Preview"></img> }
                 <div className="centerNewPostContentButtons">
                     <div className="centerNewPostContentButtonsMultimedia">
                         <input 
@@ -60,7 +87,7 @@ const CenterNewPost = () => {
                             accept="image/*" 
                             style={{ display: 'none' }} 
                             id="imageUpload" 
-                            onChange={handleImageUpload}
+                            onChange={handleFileChange}
                              
                         />
                         <label htmlFor="imageUpload" className='centerNewPostContentMultimediaButton'>Subir Imagen</label>
