@@ -51,12 +51,12 @@ public class ArdaApplication implements CommandLineRunner {
 			logger.info("name {}, username {}", user.getName(), user.getUsername());
 		}
 
-		Post post1 = new Post("hoolaa", "buenas, cómo va? estoy probando los posts.", user2);
+		Post post1 = new Post("hoolaa", "buenas, cómo va? estoy probando los posts.", user2, "");
 		prepository.save(post1);
 		user2.getPosts().add(post1);
 		user1.getLikedPosts().add(post1);
 		post1.getLikes().add(user1);
-		prepository.save(new Post("Escucharon in absentia de porcupine tree?", "es un discazo, obra de arte.", user1));
+		prepository.save(new Post("Escucharon in absentia de porcupine tree?", "es un discazo, obra de arte.", user1, ""));
 
 		for(Post post : prepository.findAll()) {
 			//User owner = post.getUser();

@@ -1,6 +1,5 @@
 package com.csgp.arda.domain;
 
-
 import jakarta.persistence.*;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -22,7 +21,9 @@ public class Post {
     private String title;
 
     private String textContent;
-     
+
+    private String imagePath;
+
     // relación con la entidad User para los posts
     @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="user_id")
@@ -49,11 +50,12 @@ public class Post {
     public Post() {
     }
 
-    public Post(String title, String textContent, User user) {
+    public Post(String title, String textContent, User user, String imagePath) {
         super();
         this.title = title;
         this.textContent = textContent;
         this.user = user;
+        this.imagePath = imagePath;
         this.likes = new HashSet<User>();
     }
 
@@ -97,4 +99,12 @@ public class Post {
         return likes;
     }
 
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
+    }
+
+    public String getImagePath() {
+        return imagePath;
+    }    
 }
+

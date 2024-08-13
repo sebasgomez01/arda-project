@@ -15,18 +15,25 @@ const CenterNewPost = () => {
         const postData = {
             title: title,
             textContent: textContent,
+            imagePath: "",
         };
 
-        await handleUpload();
-
+        let postIdentifier: string;
+        
         try {
             const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/posts`, postData);
+            postIdentifier = response.data._links.self.href;
+            console.log(postIdentifier);
             console.log('Post created successfully:', response.data);
             setTitle('');
             setTextContent('');
+            // mando la imagen 
+            await handleUpload(postIdentifier);
         } catch (error) {
             console.error('Error creating post:', error);
         }
+
+        
     }
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -38,11 +45,12 @@ const CenterNewPost = () => {
         }
     };
 
-    const handleUpload = async () => {
+    const handleUpload = async (postIdentifier: string) => {
         if (!selectedFile) return;
 
         const formData = new FormData();
         formData.append('file', selectedFile);
+        formData.append('postIdentifier', postIdentifier);
 
         try {
             const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/posts/image`, formData, {
@@ -52,6 +60,7 @@ const CenterNewPost = () => {
             });
             console.log('Image uploaded successfully:', response.data);
             setPreviewImage(null);
+            setSelectedFile(null);
         } catch (error) {
             console.error('Error uploading image:', error);
         }

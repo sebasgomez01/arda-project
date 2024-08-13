@@ -36,7 +36,7 @@ public class NewPostController {
     private final UserRepository userRepository; 
     
 
-    public NewPostController(StorageService storageService, PostRepository postRepository, UserRepository userRepository) {
+    public NewPostController(PostRepository postRepository, UserRepository userRepository) {
         this.postRepository = postRepository;
         this.userRepository = userRepository;
     }
@@ -45,7 +45,7 @@ public class NewPostController {
     @PostMapping("/api/posts")
     public ResponseEntity<Post> createPost(@RequestBody Post post, UriComponentsBuilder uriBuilder) {
         // Crear el nuevo post
-        Post createdPost = new Post(post.getTitle(), post.getTextContent(), post.getUser());
+        Post createdPost = new Post(post.getTitle(), post.getTextContent(), post.getUser(), " ");
         
         // Guardar el post en la base de datos
         postRepository.save(createdPost);
