@@ -14,6 +14,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,16 +31,16 @@ import org.springframework.http.ResponseEntity;
 @RepositoryRestController // para no anular las peticiones manejadas por Spring Data Rest
 public class NewPostController {
     
-    private final StorageService storageService;
+    
     private final PostRepository postRepository;
     private final UserRepository userRepository; 
     
 
     public NewPostController(StorageService storageService, PostRepository postRepository, UserRepository userRepository) {
-        this.storageService = storageService;
         this.postRepository = postRepository;
         this.userRepository = userRepository;
     }
+
 
     @PostMapping("/api/posts")
     public ResponseEntity<Post> createPost(@RequestBody Post post, UriComponentsBuilder uriBuilder) {
@@ -60,17 +61,6 @@ public class NewPostController {
         // Devolver el código de estado 201 con la URI del recurso creado
         return new ResponseEntity<>(createdPost, headers, HttpStatus.CREATED);
     }
-
-    @PostMapping("/api/posts/image")
-	public String handleFileUpload(@RequestParam("file") MultipartFile file) {
-
-		storageService.store(file);
-
-		return "Image succesfully uploaded";
-	}
-
-	@ExceptionHandler(StorageFileNotFoundException.class)
-	public ResponseEntity<?> handleStorageFileNotFound(StorageFileNotFoundException exc) {
-		return ResponseEntity.notFound().build();
-	}
+    
+    
 }

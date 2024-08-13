@@ -12,13 +12,12 @@ const CenterNewPost = () => {
      const handleSubmit = async (event) => {
         event.preventDefault();
 
-        // Primero sube la imagen si hay un archivo seleccionado
-        await handleUpload();
-
         const postData = {
             title: title,
             textContent: textContent,
         };
+
+        await handleUpload();
 
         try {
             const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/posts`, postData);
@@ -44,7 +43,6 @@ const CenterNewPost = () => {
 
         const formData = new FormData();
         formData.append('file', selectedFile);
-        setPreviewImage(null);
 
         try {
             const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/posts/image`, formData, {
@@ -53,6 +51,7 @@ const CenterNewPost = () => {
                 },
             });
             console.log('Image uploaded successfully:', response.data);
+            setPreviewImage(null);
         } catch (error) {
             console.error('Error uploading image:', error);
         }
