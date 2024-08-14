@@ -1,6 +1,7 @@
 export type PostResponse = {
     textContent: string,
     title: string,
+    imagePath: string,
     _links: {
         dislikes: {
             href: string
@@ -18,7 +19,7 @@ export type PostResponse = {
             href: string
         },
         user: {
-            href: string
+            href: string 
         },
    };
 }

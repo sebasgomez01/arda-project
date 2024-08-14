@@ -3,13 +3,9 @@ import { useQuery } from '@tanstack/react-query';
 import { PostResponse } from "../types";
 import CenterPost from "./CenterPost";
 
-const apiURL: string = "https://sturdy-space-giggle-679gg695r6phrggw-8080.app.github.dev/";
-
-
-
 const Postlist = () => {
     const getPosts = async (): Promise<PostResponse[]> => {
-        const response = await axios.get(apiURL + "api/posts");
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/posts`);
         return response.data._embedded.posts;
     }
 
@@ -18,10 +14,6 @@ const Postlist = () => {
         queryFn: getPosts
     });
 
-    console.log("El contenido de data es:")
-    console.log(data);
-
-    
     if (!isSuccess) {
         return <span>Loading...</span>
     }
@@ -33,12 +25,23 @@ const Postlist = () => {
             <>
                 {
                     data.map((post: PostResponse) => {
+
+                        let filename: string | undefined;
+                        let imageURL: string;
+
+                        if(post.imagePath) {
+                            filename = post.imagePath.split('/').pop(); // obtengo el nombre 
+                            imageURL = `${import.meta.env.VITE_API_URL}/api/posts/image/${filename}`;
+                        } else {
+                            imageURL = post.imagePath;
+                        }
                         
                         return (
                             <CenterPost 
                             key={post._links.self.href}
                             title={post.title} textContent={post.textContent} user={post._links.user.href} 
                             imageBool={false}
+                            srcImage={imageURL}
                         />
                         )
                         

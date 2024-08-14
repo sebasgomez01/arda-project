@@ -89,7 +89,7 @@ const CenterNewPost = () => {
                 </form>
                 { previewImage && <img className='centerNewPostImage' src={previewImage} alt="Preview"></img> }
                 <div className="centerNewPostContentButtons">
-                    <div className="centerNewPostContentButtonsMultimedia">
+                    
                         <input 
                             type="file" 
                             accept="image/*" 
@@ -98,10 +98,9 @@ const CenterNewPost = () => {
                             onChange={handleFileChange}
                              
                         />
-                        <label htmlFor="imageUpload" className='centerNewPostContentMultimediaButton'>Subir Imagen</label>
-                        <button type="button" className='centerNewPostContentMultimediaButton'>a</button>
-                        <button type="button" className='centerNewPostContentMultimediaButton'>b</button>
-                    </div>
+                        <label htmlFor="imageUpload" className='labelUploadImage'>Subir Imagen</label>
+            
+                    
                     <button type="submit" className="centerNewPostButton" onClick={handleSubmit} >Postear</button>
                 </div>
             </div>
