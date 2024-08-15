@@ -23,3 +23,34 @@ export type PostResponse = {
         },
    };
 }
+
+export type UserResponse = {
+    name: string,
+    username: string,
+    _links: {
+        dislikedPost: {
+            href: string
+        },
+        followers: {
+            href: string
+        },
+        likedPost: {
+            href: string
+        },
+        notifications: {
+            href: string
+        },
+        posts: {
+            href: string
+        },
+        reposts: {
+            href: string
+        },
+        self: {
+            href: string
+        },
+        user: {
+            href: string
+        }
+    }
+}
