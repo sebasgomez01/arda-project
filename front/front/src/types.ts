@@ -1,4 +1,8 @@
 export type PostResponse = {
+    user: {
+        name: string,
+        username: string
+    },
     textContent: string,
     title: string,
     imagePath: string,

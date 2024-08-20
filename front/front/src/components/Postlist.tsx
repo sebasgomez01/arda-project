@@ -4,6 +4,7 @@ import { PostResponse, UserResponse } from "../types";
 import CenterPost from "./CenterPost";
 import { useState, useEffect } from 'react';
 
+/*
 const replaceLinkByUsername = async (post: PostResponse) => {
     const hrefUser = post._links.user.href;
     const updatedUrl = hrefUser.replace("http://localhost:8080", import.meta.env.VITE_API_URL);
@@ -13,6 +14,7 @@ const replaceLinkByUsername = async (post: PostResponse) => {
     console.log("user: ", user);
     return user.username;
 }
+    */
 
 const Postlist = () => {
 
@@ -38,8 +40,8 @@ const Postlist = () => {
             <>
                 {
                     data.map((post: PostResponse) => {
-                        const [username, setUsername] = useState<string | null>(null);
-                
+                        //const [username, setUsername] = useState<string | null>(null);
+                      /*
                         useEffect(() => {
                           replaceLinkByUsername(post).then(result => {
                             setUsername(result);
@@ -55,15 +57,15 @@ const Postlist = () => {
                         } else {
                           imageURL = post.imagePath;
                         }
-                
+                        */
                         return (
                           <CenterPost
                             key={post._links.self.href}
                             title={post.title}
                             textContent={post.textContent}
-                            user={username || "Loading..."} // Muestra "Loading..." mientras se resuelve la promesa
+                            user={post.user.username || "Loading..."} // Muestra "Loading..." mientras se resuelve la promesa
                             imageBool={false}
-                            srcImage={imageURL}
+                            srcImage={post.imagePath}
                           />
                         );
                     })
