@@ -19,7 +19,13 @@ const replaceLinkByUsername = async (post: PostResponse) => {
 const Postlist = () => {
 
     const getPosts = async (): Promise<PostResponse[]> => {
-        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/posts`);
+        const token = sessionStorage.getItem("jwt");
+        console.log("El token obtenido de sessionStorage es:", token);
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/posts`, 
+          {
+            headers: { 'Authorization' : token }
+            }
+        );
         console.log("data:", response);
         return response.data._embedded.posts;
     }

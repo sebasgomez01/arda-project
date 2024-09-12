@@ -67,7 +67,7 @@ const CreateAccount = () => {
                             onChange={(e) => setUsername(e.target.value)}
                             required>
                         </input>
-                        <label for="password"></label>
+                        <label htmlFor="password"></label>
                         <input 
                             className='loginFormField' 
                             type="password" 

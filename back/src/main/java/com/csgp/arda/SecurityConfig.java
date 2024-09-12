@@ -67,12 +67,12 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-
+        /* 
         http.csrf((csrf) -> csrf.disable()).cors(withDefaults())
         .authorizeHttpRequests((authorizeHttpRequests) ->
         authorizeHttpRequests.anyRequest().permitAll());
 
-        /* 
+        */
         http.csrf((csrf) -> csrf.disable())
             .cors(withDefaults()) // agrego CORS
             .sessionManagement((sessionManagement) -> 
@@ -82,7 +82,7 @@ public class SecurityConfig {
             .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class) // agrego el filtro para autenticación en cada petición
             .exceptionHandling((exceptionHandling) -> 
                 exceptionHandling.authenticationEntryPoint(exceptionHandler));
-            */
+            
         return http.build();    
     
     }

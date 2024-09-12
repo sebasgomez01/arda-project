@@ -69,7 +69,7 @@ const CenterNewPost = () => {
     return (
         <div className='centerNewPostContainer'>
             <div className='centerNewPostProfileImageContainer'>
-                <img className='centerNewPostProfileImage' src="https://via.placeholder.com/150" alt="Imagen de marcador de posición">
+                <img className='centerNewPostProfileImage' src="#" alt="Imagen">
                 </img>
             </div>
             <div className='centerNewPostContent'> 
