@@ -23,7 +23,7 @@ public class UserRepositoryTest {
     @Test
     //@ParameterizedTest
     void saveUser() {
-        repository.save(new User("Lucy", "paltaAguada", "abcdef", "user"));
+        repository.save(new User("Lucy", "paltaAguada"));
         //boolean value = repository.findByName("Lucy").isPresent();
         assertThat(repository.findByName("Lucy")).isNotNull();
     }

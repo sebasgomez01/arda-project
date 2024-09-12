@@ -6,7 +6,6 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import java.security.Key;
 import org.springframework.http.HttpHeaders;
-import org.springframework.stereotype.Component;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Date;
 
@@ -39,7 +38,7 @@ public class JwtService {
             String user = Jwts.parserBuilder()
                 .setSigningKey(key)
                 .build()
-                .parseClaimsJws(token.replace(PREFIX, ""))
+                .parseClaimsJws(token.replace(PREFIX, " "))
                 .getBody()
                 .getSubject();
             if (user != null)

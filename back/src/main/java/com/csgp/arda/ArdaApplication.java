@@ -12,7 +12,8 @@ import com.csgp.arda.domain.PostRepository;
 import com.csgp.arda.domain.UserCredentials;
 import com.csgp.arda.domain.UserCredentialsRepository;
 
-@SpringBootApplication
+//@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "com.csgp.arda")
 public class ArdaApplication implements CommandLineRunner {
 
 	private static final Logger logger = LoggerFactory.getLogger(ArdaApplication.class);
@@ -35,17 +36,24 @@ public class ArdaApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		User user1 = new User("Sebastián", "kamikaze");
 		UserCredentials appUser1 = new UserCredentials("Sebastián", "kamikaze", 
-		"$2y$10$ff6hx3JlXkooLTDj2vAFF.hOgLTBLuwD2YpMIybEG3NKzgcmfqvX6", "admin");
+		"abc123", "admin");
 
 		User user2 = new User("José", "pepe");
 		UserCredentials appUser2 = new UserCredentials("José", "pepe",
 		 	"$2y$10$iZGaBUnXuYhAUoL5LpqzOubru4KO.jlGR4cRTE4/qygyJrTUtUx3O", "user");
 
+		User user3 = new User("Ramón", "trupa");
+		UserCredentials appUser3 = new UserCredentials("Ramón", "trupa",
+			"acb123", "user");	
+
+		
 
 		repository.save(user1);
 		userCredentialsRepository.save(appUser1);
 		repository.save(user2);
 		userCredentialsRepository.save(appUser2);
+		repository.save(user3);
+		userCredentialsRepository.save(appUser3);
 
 		for(User user : repository.findAll()) {
 			logger.info("name {}, username {}", user.getName(), user.getUsername());

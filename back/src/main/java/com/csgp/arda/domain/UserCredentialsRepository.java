@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 @RepositoryRestResource(exported = false)
 public interface UserCredentialsRepository extends CrudRepository<UserCredentials, Long> {
-    UserCredentials findByUsername(String username);
+    Optional<UserCredentials> findByUsername(String username);
     UserCredentials findByName(String name);
 }

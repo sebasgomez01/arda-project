@@ -6,6 +6,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AnonymousConfigurer;
+import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import com.csgp.arda.service.UserDetailsServiceImplementation;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,6 +25,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+
     private final UserDetailsServiceImplementation userDetailsServiceImplementation;
     private final AuthenticationFilter authenticationFilter;
     private final AuthEntryPoint exceptionHandler;
@@ -49,7 +52,26 @@ public class SecurityConfig {
         return authConfig.getAuthenticationManager();
     }
 
-     
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+         
+        http.csrf((csrf) -> csrf.disable())
+            .cors(withDefaults()) // agrego CORS
+            .sessionManagement((sessionManagement) -> 
+                sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            //.logout(LogoutConfigurer::disable)
+            //.anonymous(AnonymousConfigurer::disable)
+            .authorizeHttpRequests((authorizeHttpRequests) ->
+                authorizeHttpRequests.requestMatchers( "/login").permitAll()
+                .anyRequest().permitAll())
+            .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class) // agrego el filtro para autenticación en cada petición
+            .exceptionHandling((exceptionHandling) -> 
+                exceptionHandling.authenticationEntryPoint(exceptionHandler));
+        
+        return http.build();    
+    
+    }
+
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
@@ -64,29 +86,11 @@ public class SecurityConfig {
         source.registerCorsConfiguration("/**", config);
         return source;
     }
+   
+}
 
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-
+        /* 
         http.csrf((csrf) -> csrf.disable()).cors(withDefaults())
         .authorizeHttpRequests((authorizeHttpRequests) ->
         authorizeHttpRequests.anyRequest().permitAll());
-
-        /* 
-        http.csrf((csrf) -> csrf.disable())
-            .cors(withDefaults()) // agrego CORS
-            .sessionManagement((sessionManagement) -> 
-                sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .authorizeHttpRequests((authorizeHttpRequests) ->
-                authorizeHttpRequests.requestMatchers(HttpMethod.POST, "/login").permitAll().anyRequest().authenticated())
-            .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class) // agrego el filtro para autenticación en cada petición
-            .exceptionHandling((exceptionHandling) -> 
-                exceptionHandling.authenticationEntryPoint(exceptionHandler));
-            */
-        return http.build();    
-    
-    }
-
-    
-   
-}
+        */

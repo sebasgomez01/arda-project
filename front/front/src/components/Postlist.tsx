@@ -2,19 +2,6 @@ import axios from "axios";
 import { useQuery } from '@tanstack/react-query';
 import { PostResponse, UserResponse } from "../types";
 import CenterPost from "./CenterPost";
-import { useState, useEffect } from 'react';
-
-/*
-const replaceLinkByUsername = async (post: PostResponse) => {
-    const hrefUser = post._links.user.href;
-    const updatedUrl = hrefUser.replace("http://localhost:8080", import.meta.env.VITE_API_URL);
-    const response = await axios.get(updatedUrl); // obtengo
-    const user: UserResponse = response.data;
-    console.log("response: ", response);
-    console.log("user: ", user);
-    return user.username;
-}
-    */
 
 const Postlist = () => {
 
@@ -40,24 +27,7 @@ const Postlist = () => {
             <>
                 {
                     data.map((post: PostResponse) => {
-                        //const [username, setUsername] = useState<string | null>(null);
-                      /*
-                        useEffect(() => {
-                          replaceLinkByUsername(post).then(result => {
-                            setUsername(result);
-                          });
-                        }, [post]);
-                
-                        let filename: string | undefined;
-                        let imageURL: string;
-                
-                        if (post.imagePath) {
-                          filename = post.imagePath.split('/').pop(); // obtengo el nombre 
-                          imageURL = `${import.meta.env.VITE_API_URL}/api/posts/image/${filename}`;
-                        } else {
-                          imageURL = post.imagePath;
-                        }
-                        */
+                      
                         return (
                           <CenterPost
                             key={post._links.self.href}
