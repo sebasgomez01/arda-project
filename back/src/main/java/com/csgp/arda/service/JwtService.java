@@ -31,7 +31,7 @@ public class JwtService {
     }
 
     // función que extrae el token del header Authorization si existe y devuelve el usuario
-    // En otro caso devuelve 
+    // En otro caso devuelve null
     public String getAuthUser(HttpServletRequest request) {
         String token = request.getHeader(HttpHeaders.AUTHORIZATION);
         

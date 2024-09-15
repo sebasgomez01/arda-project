@@ -2,6 +2,7 @@ package com.csgp.arda.web;
 
 import com.csgp.arda.service.StorageFileNotFoundException;
 import com.csgp.arda.service.StorageService;
+import com.csgp.arda.service.JwtService;
 import com.csgp.arda.domain.Post;
 import com.csgp.arda.domain.PostRepository;
 import com.csgp.arda.domain.User;
@@ -24,7 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.http.ResponseEntity;
-
+import jakarta.servlet.http.HttpServletRequest;
 
 //@RestController
 //@RequestMapping("/api/posts")
@@ -34,18 +35,26 @@ public class NewPostController {
     
     private final PostRepository postRepository;
     private final UserRepository userRepository; 
-    
+    private final JwtService jwtService;
 
-    public NewPostController(PostRepository postRepository, UserRepository userRepository) {
+    public NewPostController(PostRepository postRepository, UserRepository userRepository, 
+    JwtService jwtService) {
         this.postRepository = postRepository;
         this.userRepository = userRepository;
+        this.jwtService = jwtService;
     }
 
 
-    @PostMapping("/api/posts")
-    public ResponseEntity<Post> createPost(@RequestBody Post post, UriComponentsBuilder uriBuilder) {
+    @PostMapping("/posts")
+    public ResponseEntity<Post> createPost(@RequestBody Post post, UriComponentsBuilder uriBuilder, 
+        HttpServletRequest request) {
+        
+        // obtengo el usuario autenticado utilizando el token
+        String username = jwtService.getAuthUser(request);
+        System.out.println(username);
+        User user = userRepository.findByUsername(username);
         // Crear el nuevo post
-        Post createdPost = new Post(post.getTitle(), post.getTextContent(), post.getUser(), " ");
+        Post createdPost = new Post(post.getTitle(), post.getTextContent(), user, "ruta_a_la_imagen");
         
         // Guardar el post en la base de datos
         postRepository.save(createdPost);
