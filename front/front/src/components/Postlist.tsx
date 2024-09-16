@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosRequestConfig } from "axios";
 import { useQuery } from '@tanstack/react-query';
 import { PostResponse, UserResponse } from "../types";
 import CenterPost from "./CenterPost";
@@ -16,16 +16,30 @@ const replaceLinkByUsername = async (post: PostResponse) => {
 }
     */
 
-const Postlist = () => {
+interface ComponentBProps {
+  newPostMessage: string;
+}
+
+const getAxiosConfig = (): AxiosRequestConfig => {
+  const token = sessionStorage.getItem("jwt");
+  return {
+      headers: {
+          'Authorization': token,
+          'Content-Type': 'application/json',
+      },
+  }; 
+};
+
+
+const Postlist: React.FC<ComponentBProps> = ( {newPostMessage} ) => {
+
+
+    console.log( newPostMessage )
 
     const getPosts = async (): Promise<PostResponse[]> => {
-        const token = sessionStorage.getItem("jwt");
-        console.log("El token obtenido de sessionStorage es:", token);
-        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/posts`, 
-          {
-            headers: { 'Authorization' : token }
-            }
-        );
+        //const token = sessionStorage.getItem("jwt");
+        //console.log("El token obtenido de sessionStorage es:", token);
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/posts`, getAxiosConfig());
         console.log("data:", response);
         return response.data._embedded.posts;
     }

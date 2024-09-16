@@ -6,31 +6,21 @@ import CenterTopBar from "./CenterTopBar";
 import Postlist from "./Postlist"
 import axios from "axios";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { useState } from "react";
 
 const queryClient = new QueryClient();
-
-
-
-let propsCenterPost1 = {
-    title: "hola qué tal",
-    textContent: "Buenas gente cómo están? Yo todo bien por acá, muchas gracias por preguntar.",
-    user: "kamikaze",
-    imageBool: false
-}
-
-let propsCenterPost2 = {
-    title: "hola qué tal",
-    textContent: "Buenas gente cómo están? Yo todo bien por acá, muchas gracias por preguntar.",
-    user: "kamikaze",
-    imageBool: true
-}
-
+/*
 const apiURL: string = "https://sturdy-space-giggle-679gg695r6phrggw-8080.app.github.dev";
 axios.get(apiURL + "/api/posts")
 .then(response => console.log(response))
 .catch(error => console.log(error))
+*/
+
 
 const Home = () => {
+    
+    const [newPostMessage, setNewPostMessage] = useState<string>('');
+
     return (
         <>
             <div className="left">
@@ -41,8 +31,8 @@ const Home = () => {
                 <LeftBarPostButton />
             </div>
             <div className="center">
-                <CenterNewPost />
-                <Postlist />
+                <CenterNewPost setNewPostMessage={setNewPostMessage} />
+                <Postlist newPostMessage={newPostMessage} />
             </div>
             <div className="right">
             </div>

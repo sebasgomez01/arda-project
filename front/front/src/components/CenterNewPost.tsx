@@ -1,8 +1,22 @@
 import '../assets/CenterNewPost.css'
 import { useState } from 'react';
-import axios from 'axios'; 
+import axios, { AxiosRequestConfig } from 'axios'; 
 
-const CenterNewPost = () => {
+const getAxiosConfig = (): AxiosRequestConfig => {
+    const token = sessionStorage.getItem("jwt");
+    return {
+        headers: {
+            'Authorization': token,
+            //'Content-Type': 'application/json',
+        },
+    }; 
+  };
+
+interface ComponentAProps {
+    setNewPostMessage: React.Dispatch<React.SetStateAction<string>>;
+}
+
+const CenterNewPost: React.FC<ComponentAProps> = ( {setNewPostMessage} ) => {
     const [title, setTitle] = useState('');
     const [textContent, setTextContent] = useState('');
     const [selectedFile, setSelectedFile] = useState<File | null>(null);  // Nuevo estado para la imagen
@@ -16,19 +30,23 @@ const CenterNewPost = () => {
             title: title,
             textContent: textContent,
             imagePath: "",
+            username: sessionStorage.getItem("username")
         };
 
         let postIdentifier: string;
         
         try {
-            const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/posts`, postData);
-            postIdentifier = response.data._links.self.href;
+            const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/posts`, postData, getAxiosConfig());
+            console.log("response: ")
+            console.log(response)
+            postIdentifier = response.data.id;
             console.log(postIdentifier);
             console.log('Post created successfully:', response.data);
             setTitle('');
             setTextContent('');
             // mando la imagen 
             await handleUpload(postIdentifier);
+            setNewPostMessage('New post!!!')
         } catch (error) {
             console.error('Error creating post:', error);
         }
@@ -53,11 +71,16 @@ const CenterNewPost = () => {
         formData.append('postIdentifier', postIdentifier);
 
         try {
-            const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/posts/image`, formData, {
-                headers: {
+            const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/posts/image`, formData, 
+                getAxiosConfig()
+
+                /*{
+                    headers: {
                     'Content-Type': 'multipart/form-data',
                 },
-            });
+                }
+                */
+            );
             console.log('Image uploaded successfully:', response.data);
             setPreviewImage(null);
             setSelectedFile(null);

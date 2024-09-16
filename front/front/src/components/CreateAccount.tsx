@@ -25,8 +25,8 @@ const CreateAccount = () => {
         };
 
         try {
-            const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/users`, userData);
-            axios.post(`${import.meta.env.VITE_API_URL}/api/users/credentials`, userDataCredentials);
+            //const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/users`, userData);
+            const response = axios.post(`${import.meta.env.VITE_API_URL}/api/users/credentials`, userDataCredentials);
             console.log('User created successfully:', response.data);
             setName('');
             setUsername('');
@@ -45,7 +45,7 @@ const CreateAccount = () => {
                 <div className='createAccountModal'>
                     <h2 className='loginModalTitle'>Create your account</h2>
                     <form action="/login" method="post" className='loginForm' onSubmit={handleSubmit}>
-                        <label for="name"></label>
+                        <label htmlFor="name"></label>
                         <input 
                             className='loginFormField'
                             type="text" 

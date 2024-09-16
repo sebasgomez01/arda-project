@@ -3,6 +3,7 @@ import '../assets/Login.css';
 import { useLocation, Link, useNavigate } from 'react-router-dom';
 import axios from 'axios'; 
 
+
 const Login = () => {
     const location = useLocation();
     const navigate = useNavigate(); // Hook para navegar a otra ruta
@@ -23,6 +24,9 @@ const Login = () => {
             username: username,
             password: password
         };
+        
+        // guardo el username en sessionStorage
+        sessionStorage.setItem("username", loginData.username); // guardo el token en sessionStorage
 
         try {
             const response = await axios.post(`${import.meta.env.VITE_API_URL}/login`, loginData, {

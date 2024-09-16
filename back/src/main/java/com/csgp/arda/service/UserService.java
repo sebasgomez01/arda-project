@@ -35,6 +35,7 @@ public class UserService {
         appUser.setName(name);
         appUser.setPassword(password);
         appUser.setRole(role);
+        createUser(username, name);
         return UserCredentialsRepository.save(appUser);
     }
 }
