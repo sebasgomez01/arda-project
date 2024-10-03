@@ -1,0 +1,50 @@
+#listItemContainer {
+    display: grid;
+    grid-template-areas: 
+        "image text1 button"
+        "image text2 button"
+    ;
+    grid-template-columns: 20% 50% 30%;
+    /* grid-template-rows: ;*/
+    padding: 10px;
+    justify-items: center;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+}
+
+.listItemProfilePicture {
+    grid-area: image;
+    grid-column-start: 1;
+    grid-column-end: 1;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.name {
+    grid-area: text1;
+    grid-column-start: 2;
+    grid-column-end: 2;
+ 
+    margin: 0;
+    justify-self: start;
+}
+
+.username {
+    grid-area: text2;
+    grid-column-start: 2;
+    grid-column-end: 2;
+    
+    margin: 0;
+    justify-self: start;
+}
+
+.followButton {
+    grid-area: button;
+    grid-column-start: 3;
+    grid-column-end: 3;
+    
+    width: 80%;
+    height: 90%;
+}

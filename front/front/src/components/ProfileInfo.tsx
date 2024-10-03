@@ -29,7 +29,6 @@ const ProfileInfo = () => {
                     </div>
                 </div>
             <div className='profileListContainer'>
-
             </div>
             
         </>

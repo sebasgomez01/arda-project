@@ -4,9 +4,10 @@ import LeftBarItem from './LeftBarItem';
 import LeftBarPostButton from './LeftBarPostButton';
 import ProfileInfo from './ProfileInfo';
 import Postlist from './Postlist';
+import FollowerList from './FollowerList';
 
 const Profile = () => {
-    const [stateArray, setStateArray] = useState<Array<number>>([1, 0, 0, 0]);
+    const [stateArray, setStateArray] = useState<Array<number>>([0, 1, 0, 0]);
 
     return (
         <>
@@ -19,7 +20,8 @@ const Profile = () => {
             </div>
             <div className="center">
                 <ProfileInfo />
-                { stateArray[0] && <Postlist /> } 
+                { stateArray[0] && <Postlist newPostMessage={''} /> } 
+                { stateArray[1] && <FollowerList />}
             </div>
             <div className="right">
             </div>
