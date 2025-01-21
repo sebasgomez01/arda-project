@@ -5,6 +5,7 @@ import java.lang.annotation.Inherited;
 import javax.annotation.processing.Generated;
 import jakarta.persistence.*;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import jakarta.persistence.Id;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.GeneratedValue;
@@ -19,6 +20,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 
 @Entity
+@Table(name = "users") // esto es porque la palabra user está reservada en PostgreSQL y no se puede tener una tabla con ese nombre
 @JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 public class User {
     @Id

@@ -10,7 +10,7 @@ import com.csgp.arda.service.*;
 import com.csgp.arda.domain.*;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/users")
 public class CreateAccountController {
     
     private final UserService userService;

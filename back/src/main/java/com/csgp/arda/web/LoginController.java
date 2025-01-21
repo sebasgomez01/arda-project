@@ -12,6 +12,7 @@ import com.csgp.arda.domain.AccountCredentials;
 import com.csgp.arda.service.JwtService;
 
 @RestController
+@RequestMapping("/users")
 public class LoginController {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
