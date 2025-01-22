@@ -79,8 +79,8 @@ public class SecurityConfig {
                 sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests((authorizeHttpRequests) ->
                 authorizeHttpRequests
-                    .requestMatchers(HttpMethod.POST, "/api/users/login").permitAll()
-                    .requestMatchers(HttpMethod.POST, "/api/users/credentials").permitAll()
+                    .requestMatchers(HttpMethod.POST, "/users/login").permitAll()
+                    .requestMatchers(HttpMethod.POST, "/users/credentials").permitAll()
                     .anyRequest()    
                     .authenticated())
             .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class) // agrego el filtro para autenticación en cada petición

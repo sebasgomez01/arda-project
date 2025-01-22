@@ -1,21 +1,17 @@
 import { useState } from 'react';
-import axios from 'axios';
+import apiClient from '../axiosConfig.ts';
 import '../assets/CreateAccount.css'
 import { useNavigate, Link } from 'react-router-dom'; // para redigirigir a otra página
 
 const CreateAccount = () => {
-    const [name, setName] = useState('');
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+    const [name, setName] = useState<string>('');
+    const [username, setUsername] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
     const navigate = useNavigate();
 
-    const handleSubmit = async (event) => {
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        //event.preventDefault();
         event.preventDefault();
-
-        const userData = {
-            name: name,
-            username: username,
-        };
 
         const userDataCredentials = {
             name: name,
@@ -25,26 +21,24 @@ const CreateAccount = () => {
         };
 
         try {
-            //const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/users`, userData);
-            const response = axios.post(`${import.meta.env.VITE_API_URL}/api/users/credentials`, userDataCredentials);
-            console.log('User created successfully:', response.data);
-            setName('');
-            setUsername('');
-            setPassword('');
+            
+            const response = await apiClient.post("/users/credentials", userDataCredentials);
+            console.log('User created successfully:', response);
+            //setName('');
+            //setUsername('');
+            //setPassword('');
+            //navigate( "/login", { state: { fromCreateAccount: true } });
         } catch (error) {
             console.error('Error creating post:', error);
-        }
-
-        
-        navigate( "/login", { state: { fromCreateAccount: true } });
+        }       
     }
 
     return (
         <>
              <div className='createAccountModalContainer'>
                 <div className='createAccountModal'>
-                    <h2 className='loginModalTitle'>Create your account</h2>
-                    <form action="/login" method="post" className='loginForm' onSubmit={handleSubmit}>
+                    <h2 className='loginModalTitle'>holacaradebola</h2>
+                    <form className='loginForm' onSubmit={handleSubmit}>
                         <label htmlFor="name"></label>
                         <input 
                             className='loginFormField'

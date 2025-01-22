@@ -53,7 +53,7 @@ const Postlist: React.FC<ComponentBProps> = ( {newPostMessage} ) => {
         return <span>Loading...</span>
     }
     else if (error) {
-        return <span>Error when fetching cars...</span>
+        return <span>Error when fetching posts...</span>
     }
     else {
         return (
@@ -86,6 +86,7 @@ const Postlist: React.FC<ComponentBProps> = ( {newPostMessage} ) => {
                             user={post.user.username || "Loading..."} // Muestra "Loading..." mientras se resuelve la promesa
                             imageBool={false}
                             srcImage={post.imagePath}
+                            id={post._links.self.href}
                           />
                         );
                     })

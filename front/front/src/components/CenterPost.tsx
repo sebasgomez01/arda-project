@@ -1,21 +1,39 @@
-import axios from 'axios';
+
 import '../assets/CenterPost.css'
+import apiClient from '../axiosConfig';
 
 type CenterPostProps = {
     title: string,
     textContent: string,
     user: string,
     imageBool: boolean
-    srcImage: string;   
+    srcImage: string; 
+    id: string;  
+}
+
+const deleteElem = async () => {
+  // Realizo la petición DELETE
+  apiClient.delete(`/posts/${bookID}`)
+    .then(response => {
+      //console.log('Libro eliminado correctamente', response.data);
+    deleteEvent();
+    })
+    .catch(error => {
+      //console.error('Error al eliminar el libro', error);
+    emit('sessionExpired');
+    });
+
+    
+      // Ejecuto la función deleteEvent que emite el evento deleteItem para que lo escuche el componente App.vue
+    ;
 }
 
 const CenterPost = (props: CenterPostProps) => {
 
   return (
     <div className="centerPostContainer">
-        <div className="centerPostProfileImgContainer">
-            <img className="centerPostProfileImg" src="https://via.placeholder.com/150" alt="Imagen de marcador de posición"></img>
-        </div>
+      
+      
         <div className="centerPostContentContainer">
             <h3 className="centerPostContentAuthorInfo">{props.title} </h3>
             <h5 className="centerPostContentAuthorInfo">from: {props.user} </h5>
@@ -24,10 +42,10 @@ const CenterPost = (props: CenterPostProps) => {
                 { props.srcImage && <img className='centerPostImage' src={props.srcImage} alt="Imagen de marcador de posición"></img> }
                 { props.srcImage && <p className="centerPostImgInfo"></p> }
                 <div className="centerPostButtons">
-                  <button className='postButton'>a</button>
-                  <button className='postButton'>b</button>
-                  <button className='postButton'>c</button>
-                  <button className='postButton'>d</button>
+                  <button className='postButton'>Me gusta</button>
+                  <button className='postButton'>Comentar</button>
+                  <button className='postButton'>Editar</button>
+                  <button className='postButton'>Eliminar</button>
                 </div>
             </div>
         </div>
@@ -36,3 +54,10 @@ const CenterPost = (props: CenterPostProps) => {
 };
 
 export default CenterPost;
+
+/**
+ 
+        <div className="centerPostProfileImgContainer">
+            <img className="centerPostProfileImg" src="#" alt="Imagen de marcador de posición"></img>
+        </div>
+ */

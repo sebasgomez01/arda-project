@@ -1,15 +1,14 @@
 import { useState, useEffect } from 'react';
 import '../assets/Login.css';
 import { useLocation, Link, useNavigate } from 'react-router-dom';
-import axios from 'axios'; 
-
+import apiClient from '../axiosConfig.ts';
 
 const Login = () => {
     const location = useLocation();
     const navigate = useNavigate(); // Hook para navegar a otra ruta
-    const [newAccountMessage, setNewAccountMessage] = useState(false);
-    const [username, setUsername] = useState(''); // Estado para username
-    const [password, setPassword] = useState(''); // Estado para password
+    const [newAccountMessage, setNewAccountMessage] = useState<boolean>(false);//useState(false);
+    const [username, setUsername] = useState<string>(''); // Estado para username
+    const [password, setPassword] = useState<string>(''); // Estado para password
 
     useEffect(() => {
         if (location.state?.fromCreateAccount) {
@@ -17,7 +16,7 @@ const Login = () => {
         }
     }, [location.state]);
 
-    const handleSubmit = async (event) => {
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault(); // Prevenir el comportamiento por defecto del formulario
 
         const loginData = {
@@ -29,7 +28,7 @@ const Login = () => {
         sessionStorage.setItem("username", loginData.username); // guardo el token en sessionStorage
 
         try {
-            const response = await axios.post(`${import.meta.env.VITE_API_URL}/login`, loginData, {
+            const response = await apiClient.post("/users/login", loginData, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
