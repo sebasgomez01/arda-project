@@ -8,11 +8,11 @@ const apiClient = axios.create({
   //timeout: 10000000, // Tiempo de espera 
 });
 
-/*
+
 // Interceptor para agregar el token a las peticiones
 apiClient.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('jwt_token');
+    const token = sessionStorage.getItem('jwt_token');
     if (token) {
       config.headers['Authorization'] = token;
     }
@@ -22,7 +22,6 @@ apiClient.interceptors.request.use(
     return Promise.reject(error);
   }
 );
-*/
 
 // Interceptor para manejar errores
 /*

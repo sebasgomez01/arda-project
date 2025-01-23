@@ -67,22 +67,27 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        /* 
-        http.csrf((csrf) -> csrf.disable()).cors(withDefaults())
-        .authorizeHttpRequests((authorizeHttpRequests) ->
-        authorizeHttpRequests.anyRequest().permitAll());
+        
+        http.csrf((csrf) -> csrf.disable())
+            .cors(withDefaults())
+            .sessionManagement((sessionManagement) -> 
+                sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .authorizeHttpRequests((authorizeHttpRequests) ->
+                authorizeHttpRequests.anyRequest().permitAll())
 
-        */
+        /* 
         http.csrf((csrf) -> csrf.disable())
             .cors(withDefaults()) // agrego CORS
             .sessionManagement((sessionManagement) -> 
                 sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests((authorizeHttpRequests) ->
                 authorizeHttpRequests
-                    .requestMatchers(HttpMethod.POST, "/users/login").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/actuator/mappings").permitAll()
                     .requestMatchers(HttpMethod.POST, "/users/credentials").permitAll()
+                    .requestMatchers(HttpMethod.POST, "/users/login").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/").permitAll()
                     .anyRequest()    
-                    .authenticated())
+                    .authenticated())*/
             .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class) // agrego el filtro para autenticación en cada petición
             .exceptionHandling((exceptionHandling) -> 
                 exceptionHandling.authenticationEntryPoint(exceptionHandler));

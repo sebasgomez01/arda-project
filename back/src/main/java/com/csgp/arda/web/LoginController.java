@@ -15,6 +15,7 @@ import com.csgp.arda.service.JwtService;
 @RestController
 @RequestMapping("/users")
 public class LoginController {
+
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
@@ -25,8 +26,7 @@ public class LoginController {
 
     @PostMapping("/login")
     public ResponseEntity<?> getToken(@RequestBody AccountCredentials credentials) {
-        UsernamePasswordAuthenticationToken creds = new UsernamePasswordAuthenticationToken(credentials.username(),
-                    credentials.password());
+        UsernamePasswordAuthenticationToken creds = new UsernamePasswordAuthenticationToken(credentials.username(), credentials.password());
         
         Authentication auth = authenticationManager.authenticate(creds);
         

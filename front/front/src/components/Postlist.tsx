@@ -1,4 +1,5 @@
 import axios, { AxiosRequestConfig } from "axios";
+import apiClient from "../axiosConfig";
 import { useQuery } from '@tanstack/react-query';
 import { PostResponse, UserResponse } from "../types";
 import CenterPost from "./CenterPost";
@@ -39,61 +40,37 @@ const Postlist: React.FC<ComponentBProps> = ( {newPostMessage} ) => {
     const getPosts = async (): Promise<PostResponse[]> => {
         //const token = sessionStorage.getItem("jwt");
         //console.log("El token obtenido de sessionStorage es:", token);
-        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/posts`, getAxiosConfig());
-        console.log("data:", response);
-        return response.data._embedded.posts;
+        const response = await apiClient.get("/posts");
+        console.log("response:", response);
+        console.log("post 0:", response.data[0]);
+        console.log("post 1:", response.data[1]);
+        console.log("data:", response.data);
+        return response.data;
     }
+    getPosts();
 
-    const { data, error, isSuccess } = useQuery({
-        queryKey: ["posts"],
-        queryFn: getPosts
-    });
+    const data = [];
 
-    if (!isSuccess) {
-        return <span>Loading...</span>
-    }
-    else if (error) {
-        return <span>Error when fetching posts...</span>
-    }
-    else {
-        return (
-            <>
-                {
-                    data.map((post: PostResponse) => {
-                        //const [username, setUsername] = useState<string | null>(null);
-                      /*
-                        useEffect(() => {
-                          replaceLinkByUsername(post).then(result => {
-                            setUsername(result);
-                          });
-                        }, [post]);
-                
-                        let filename: string | undefined;
-                        let imageURL: string;
-                
-                        if (post.imagePath) {
-                          filename = post.imagePath.split('/').pop(); // obtengo el nombre 
-                          imageURL = `${import.meta.env.VITE_API_URL}/api/posts/image/${filename}`;
-                        } else {
-                          imageURL = post.imagePath;
-                        }
-                        */
-                        return (
-                          <CenterPost
-                            key={post._links.self.href}
-                            title={post.title}
-                            textContent={post.textContent}
-                            user={post.user.username || "Loading..."} // Muestra "Loading..." mientras se resuelve la promesa
-                            imageBool={false}
-                            srcImage={post.imagePath}
-                            id={post._links.self.href}
-                          />
-                        );
-                    })
-                }
-            </>
-        );
-    }
+    return (
+      <>
+          {
+              data.map((post: PostResponse) => {
+                  //console.log(post._links.self.href)
+                  return (
+                    <CenterPost
+                      key={post._links.self.href}
+                      title={post.title}
+                      textContent={post.textContent}
+                      user={post.user.username || "Loading..."} // Muestra "Loading..." mientras se resuelve la promesa
+                      imageBool={false}
+                      srcImage={post.imagePath}
+                      id={post._links.self.href}
+                    />
+                  );
+              })
+          }
+      </>
+  );
 };
 
 export default Postlist;

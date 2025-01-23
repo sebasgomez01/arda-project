@@ -82,6 +82,14 @@ public class Comment {
     public User getUser() {
         return user;
     }
+
+    public void setPost(Post post) {
+        this.post = post;
+    }
+
+    public Post getPost() {
+        return post;
+    }
     /*
     public void setLikes(Set<User> likes) {
         this.likes = likes;

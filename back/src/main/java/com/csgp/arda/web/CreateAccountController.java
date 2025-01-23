@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.http.HttpStatus;
 import com.csgp.arda.service.*;
 import com.csgp.arda.domain.*;
 
@@ -24,13 +25,10 @@ public class CreateAccountController {
     }
 
     @PostMapping("/credentials")
-    public ResponseEntity<User> createUser(@RequestBody UserCredentials user) {
-        //User createdUser = userService.createUser(user.getUsername(), user.getName());
-        String encodedPassword = passwordEncoder.encode(user.getPassword()); // encripto la contraseña
-        UserCredentials createdAppUser = userService.createAppUser(user.getUsername(), 
-        user.getName(), encodedPassword, user.getRole());
+    public ResponseEntity<User> createUser(@RequestBody UserCredentials user) {    
+        UserCredentials createdAppUser = userService.createUserCredentials(user.getUsername(), user.getName(), user.getPassword(), user.getRole());
         User createdUser = userRepository.findByName(user.getName());
-        return ResponseEntity.ok(createdUser);
+        return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
     }
 }
 

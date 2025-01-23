@@ -1,16 +1,7 @@
 import '../assets/CenterNewPost.css'
 import { useState } from 'react';
 import axios, { AxiosRequestConfig } from 'axios'; 
-
-const getAxiosConfig = (): AxiosRequestConfig => {
-    const token = sessionStorage.getItem("jwt");
-    return {
-        headers: {
-            'Authorization': token,
-            //'Content-Type': 'application/json',
-        },
-    }; 
-  };
+import apiClient from '../axiosConfig';
 
 interface ComponentAProps {
     setNewPostMessage: React.Dispatch<React.SetStateAction<string>>;
@@ -36,7 +27,7 @@ const CenterNewPost: React.FC<ComponentAProps> = ( {setNewPostMessage} ) => {
         let postIdentifier: string;
         
         try {
-            const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/posts`, postData, getAxiosConfig());
+            const response = await apiClient.post("posts", postData);
             console.log("response: ")
             console.log(response)
             postIdentifier = response.data.id;
@@ -71,8 +62,7 @@ const CenterNewPost: React.FC<ComponentAProps> = ( {setNewPostMessage} ) => {
         formData.append('postIdentifier', postIdentifier);
 
         try {
-            const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/posts/image`, formData, 
-                getAxiosConfig()
+            const response = await apiClient.post("/posts/image", formData
 
                 /*{
                     headers: {

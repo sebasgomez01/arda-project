@@ -3,6 +3,8 @@ package com.csgp.arda.web;
 import com.csgp.arda.service.StorageFileNotFoundException;
 import com.csgp.arda.service.StorageService;
 import com.csgp.arda.service.JwtService;
+import com.csgp.arda.domain.Comment;
+import com.csgp.arda.domain.CommentRepository;
 import com.csgp.arda.domain.Post;
 import com.csgp.arda.domain.PostRepository;
 import com.csgp.arda.domain.User;
@@ -27,26 +29,25 @@ import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.http.ResponseEntity;
 import jakarta.servlet.http.HttpServletRequest;
 
-//@RestController
 //@RequestMapping("/api/posts") // esta anotación no se puede usar con @RepositoryRestController al mismo tiempo 
-@RepositoryRestController // para no anular las peticiones manejadas por Spring Data Rest
-public class NewPostController {
+@RepositoryRestController // para sobreescribir y no anular el resto de las peticiones manejadas por Spring Data Rest
+public class NewCommentController {
     
-    
-    private final PostRepository postRepository;
+    private final CommentRepository commentRepository;
     private final UserRepository userRepository; 
     private final JwtService jwtService;
+    private final PostRepository postRepository;
 
-    public NewPostController(PostRepository postRepository, UserRepository userRepository, 
-    JwtService jwtService) {
-        this.postRepository = postRepository;
+    public NewCommentController(CommentRepository commentRepository, UserRepository userRepository, 
+    JwtService jwtService, PostRepository postRepository) {
+        this.commentRepository = commentRepository;
         this.userRepository = userRepository;
         this.jwtService = jwtService;
+        this.postRepository = postRepository;
     }
 
-
-    @PostMapping("/posts")
-    public ResponseEntity<Post> createPost(@RequestBody Post post, UriComponentsBuilder uriBuilder, HttpServletRequest request) {
+    @PostMapping("/comments")
+    public ResponseEntity<Comment> createComment(@RequestBody Comment comment, UriComponentsBuilder uriBuilder, HttpServletRequest request) {
         
         // obtengo el usuario autenticado utilizando el token
         String username = jwtService.getAuthUser(request);
@@ -55,22 +56,23 @@ public class NewPostController {
 
         User user = userRepository.findByUsername(username);
         
-        // Crear el nuevo post
-        Post createdPost = new Post(post.getTitle(), post.getTextContent(), user, "ruta_a_la_imagen");
-        
-        // Guardar el post en la base de datos
-        postRepository.save(createdPost);
-        
-        System.out.println("El controlador ha sido llamado");
+        // obtengo el post correspondiente
+        Post post = postRepository.findById(comment.getPost().getId()).get();
 
+        // Crear el nuevo comentario
+        Comment createdComment = new Comment(comment.getTextContent(), user, post);
+        
+        // Guardar el comentario en la base de datos
+        commentRepository.save(createdComment);
+        
         // Construir la URI del nuevo recurso creado
         HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(uriBuilder.path("/posts/{id}")
-                                    .buildAndExpand(createdPost.getId())
+        headers.setLocation(uriBuilder.path("/comments/{id}")
+                                    .buildAndExpand(createdComment.getId())
                                     .toUri());
         
         // Devolver el código de estado 201 con la URI del recurso creado
-        return new ResponseEntity<>(createdPost, headers, HttpStatus.CREATED);
+        return new ResponseEntity<>(createdComment, headers, HttpStatus.CREATED);
     }
     
     

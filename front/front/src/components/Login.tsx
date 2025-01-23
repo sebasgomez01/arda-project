@@ -37,7 +37,7 @@ const Login = () => {
             const jwtToken = response.headers.authorization;
             if (jwtToken !== null) {
                 console.log("El token es:", jwtToken)
-                sessionStorage.setItem("jwt", jwtToken); // guardo el token en sessionStorage
+                sessionStorage.setItem("jwt_token", jwtToken); // guardo el token en sessionStorage
                 navigate('/home'); // Redirigir a la página de inicio
                 //setAuth(true);
             }

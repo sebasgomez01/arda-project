@@ -1,5 +1,6 @@
 package com.csgp.arda.service;
 
+import java.security.spec.EncodedKeySpec;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -25,17 +26,17 @@ public class UserService {
         User user = new User();
         user.setUsername(username);
         user.setName(name);
-        //user.setPassword(passwordEncoder.encode(password)); // Encriptar la contraseña
         return userRepository.save(user);
     }
 
-    public UserCredentials createAppUser(String username, String name, String password, String role) {
+    public UserCredentials createUserCredentials(String username, String name, String password, String role) {
+        createUser(username, name);
+        String encodedPassword = passwordEncoder.encode(password); // encripto la contraseña
         UserCredentials appUser = new UserCredentials();
         appUser.setUsername(username);
         appUser.setName(name);
-        appUser.setPassword(password);
+        appUser.setPassword(encodedPassword);
         appUser.setRole(role);
-        createUser(username, name);
         return UserCredentialsRepository.save(appUser);
     }
 }

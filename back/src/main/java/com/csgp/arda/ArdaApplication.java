@@ -13,7 +13,7 @@ import com.csgp.arda.domain.UserCredentials;
 import com.csgp.arda.domain.UserCredentialsRepository;
 
 @SpringBootApplication
-public class ArdaApplication implements CommandLineRunner {
+public class ArdaApplication /*implements CommandLineRunner*/ {
 
 	private static final Logger logger = LoggerFactory.getLogger(ArdaApplication.class);
 
@@ -31,6 +31,7 @@ public class ArdaApplication implements CommandLineRunner {
 		SpringApplication.run(ArdaApplication.class, args);
 	}
 
+	/*
 	@Override
 	public void run(String... args) throws Exception {
 		User user1 = new User("Sebastián", "kamikaze");
@@ -79,5 +80,5 @@ public class ArdaApplication implements CommandLineRunner {
 		}
 		
 	}
-
+	 */
 }
