@@ -41,6 +41,7 @@ public class User {
     private List<Post> posts;   
 
     // relación con la entidad Post para los posts likeados
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
         name = "user_liked_posts",
@@ -50,6 +51,7 @@ public class User {
     private Set<Post> likedPosts;
 
     // relación con la entidad Post para los dislikes
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable( 
         name = "user_disliked_posts",
@@ -59,6 +61,7 @@ public class User {
     private Set<Post> dislikedPosts;
 
     // relación con la entidad Post para los posts reposteados
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
         name = "user_reposts",
@@ -68,10 +71,12 @@ public class User {
     private Set<Post> reposts;
 
     // establezco la relación con la entidad Comment
+    @JsonIgnore
     @OneToMany(cascade=CascadeType.ALL, mappedBy="user")    
     private List<Comment> comments;  
 
     // relación con la entidad Post para los comentarios likeados por el usuario
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
         name = "user_liked_comments",
@@ -81,6 +86,7 @@ public class User {
     private Set<Comment> likedComments;
 
     // relación con la entidad Post para los comentarios dislikeados por el usuario
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
         name = "user_disliked_comments",
@@ -90,6 +96,7 @@ public class User {
     private Set<Comment> dislikedComments;
 
     // establezco relación ManyToMany entre User y Notification
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
         name = "user_notification",
@@ -99,6 +106,7 @@ public class User {
     private Set<Notification> notifications;
 
     // establezco relacion ManyToMany entre User y User para modelar los seguidores de un usuario
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
         name = "user_follower",
@@ -152,11 +160,27 @@ public class User {
         this.posts = posts;
     }
 
+    public Set<Post> getReposts() {
+        return reposts;
+    }
+
+    public void setReposts(Set<Post> reposts) {
+        this.reposts = reposts;
+    }
+
     public Set<Post> getLikedPosts() {
         return likedPosts;
     }
 
     public void setLikedPosts(Set<Post> likedPosts) {
         this.likedPosts = likedPosts;        
+    }
+
+    public Set<Post> getDislikedPosts() {
+        return dislikedPosts;
+    }
+
+    public void setDislikedPosts(Set<Post> dislikedPosts) {
+        this.dislikedPosts = dislikedPosts;        
     }
 }

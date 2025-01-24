@@ -10,8 +10,12 @@ import java.util.List;
 import java.util.Set;
 import java.util.HashSet;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -27,23 +31,28 @@ public class Post {
     // relación con la entidad User para los posts
     @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="user_id")
+    @JsonIgnore
     //@JsonBackReference
     private User user;
 
     // relación con la entidad User para los likes
     @ManyToMany(mappedBy = "likedPosts", fetch = FetchType.LAZY)
+    @JsonIgnore
     private Set<User> likes;
 
     // relación con la entidad User para los dislikes
     @ManyToMany(mappedBy = "dislikedPosts", fetch = FetchType.LAZY)
+    @JsonIgnore
     private Set<User> dislikes;
 
     // relación con la entidad User para los reposts
     @ManyToMany(mappedBy = "reposts", fetch = FetchType.LAZY)
+    @JsonIgnore
     private Set<User> reposts;
 
     // establezco la relación con la entidad Comment para saber cuáles son los comentarios del post
     @OneToMany(cascade=CascadeType.ALL, mappedBy="post")    
+    @JsonIgnore
     private List<Comment> comments;  
 
     // Constructores
@@ -99,12 +108,28 @@ public class Post {
         return likes;
     }
 
+    public void setDislikes(Set<User> dislikes) {
+        this.dislikes = dislikes;
+    }
+
+    public Set<User> getDislikes() {
+        return dislikes;
+    }
+
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
     }
 
     public String getImagePath() {
         return imagePath;
-    }    
+    } 
+    
+    public void setReposts(Set<User> reposts) {
+        this.reposts = reposts;
+    }
+
+    public Set<User> getReposts() {
+        return reposts;
+    }
 }
 
