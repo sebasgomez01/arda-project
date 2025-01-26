@@ -1,16 +1,16 @@
 package com.csgp.arda.domain;
 
 import jakarta.persistence.*;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Column;
+
 import java.util.List;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -22,28 +22,33 @@ public class Comment {
     // relación con la entidad User para identificar al usuario que hizo el comentario
     @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="user_id")
+    @JsonIgnore
     private User user;
 
     
     // relación con la entidad Post para identificar a qué post pertenece el comentario
-    @ManyToOne(fetch=FetchType.EAGER)
+    @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="post_id")
     private Post post;
 
     // relación con otro comentario para modelar las respuestas a un comentario
     @ManyToOne
     @JoinColumn(name = "parent_comment_id")
+    @JsonIgnore
     private Comment parentComment;
 
     @OneToMany(mappedBy = "parentComment")
+    @JsonIgnore
     private List<Comment> replies;
 
     // relación con la entidad User para los likes del comentario
     @ManyToMany(mappedBy = "likedComments", fetch = FetchType.LAZY)
+    @JsonIgnore
     private Set<User> likes;
 
     // relación con la entidad User para los dislikes del comentario
     @ManyToMany(mappedBy = "dislikedComments", fetch = FetchType.LAZY)
+    @JsonIgnore
     private Set<User> dislikes;
 
     // Constructores
@@ -90,7 +95,7 @@ public class Comment {
     public Post getPost() {
         return post;
     }
-    /*
+    
     public void setLikes(Set<User> likes) {
         this.likes = likes;
     }
@@ -98,5 +103,12 @@ public class Comment {
     public Set<User> getLikes() {
         return likes;
     }
-    */
+    
+    public void setDislikes(Set<User> dislikes) {
+        this.dislikes = dislikes;
+    }
+
+    public Set<User> getDislikes() {
+        return dislikes;
+    }
 }

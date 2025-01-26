@@ -26,8 +26,8 @@ public class CreateAccountController {
 
     @PostMapping("/credentials")
     public ResponseEntity<User> createUser(@RequestBody UserCredentials user) {    
-        UserCredentials createdAppUser = userService.createUserCredentials(user.getUsername(), user.getName(), user.getPassword(), user.getRole());
-        User createdUser = userRepository.findByName(user.getName());
+        UserCredentials UserCredentialsCreated = userService.createUserCredentials(user.getUsername(), user.getName(), user.getPassword(), user.getRole());
+        User createdUser = userRepository.findByUsername(user.getUsername());
         return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
     }
 }

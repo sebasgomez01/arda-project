@@ -47,17 +47,6 @@ public class PostInteractionsController {
         this.jwtService = jwtService;
     }
 
-        /* 
-    private User obtainUserAndPost(HttpServletRequest request, Long postId) {
-        // obtengo el usuario autenticado utilizando el token
-        String username = jwtService.getAuthUser(request);
-        User user = userRepository.findByUsername(username);
-        // obtengo el post de la base de datos
-        Post post = postRepository.findById(postId).get();
-        return user
-    }
-
-    */
     private void deleteDislikePost(User user, Post post) {
         Set<Post> dislikedPosts = user.getDislikedPosts();
         if(dislikedPosts.contains(post)) {
@@ -94,6 +83,16 @@ public class PostInteractionsController {
         } 
     }
 
+    private HttpHeaders buildURI(UriComponentsBuilder uriBuilder, Long id) {
+        // Construir la URI del nuevo recurso creado
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(uriBuilder.path("/posts/{id}")
+                                    .buildAndExpand(id)
+                                    .toUri());
+        
+        return headers;
+    }
+
 
     @PatchMapping("/posts/like/{postId}")
     public ResponseEntity<Post> likePost(@PathVariable Long postId, UriComponentsBuilder uriBuilder, HttpServletRequest request) {
@@ -115,28 +114,16 @@ public class PostInteractionsController {
         user.setLikedPosts(updatedPostLiked);
 
         // si el usuario le dió dislike antes, quito el dislike
-        Set<Post> dislikedPosts = user.getDislikedPosts();
-        if(dislikedPosts.contains(post)) {
-            dislikedPosts.remove(post);
-            user.setDislikedPosts(dislikedPosts);
+        deleteDislikePost(user, post);
 
-            Set<User> dislikeUsers = post.getDislikes();
-            dislikeUsers.remove(user);
-            post.setDislikes(dislikeUsers);
-        } 
-        
         // Guardar ambos en la base de datos
         postRepository.save(post);
         userRepository.save(user);
 
         System.out.println("El controlador ha sido llamado");
 
-        // Construir la URI del nuevo recurso creado
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(uriBuilder.path("/posts/{id}")
-                                    .buildAndExpand(post.getId())
-                                    .toUri());
-        
+        HttpHeaders headers = buildURI(uriBuilder, postId);
+
         // Devolver el código de estado 200 con la URI del recurso 
         return new ResponseEntity<>(post, headers, HttpStatus.OK);
     }
@@ -153,15 +140,7 @@ public class PostInteractionsController {
         Post post = postRepository.findById(postId).get();
 
         // elimino el like
-        Set<Post> likedPosts = user.getLikedPosts();
-        if(likedPosts.contains(post)) {
-            likedPosts.remove(post);
-            user.setLikedPosts(likedPosts);
-
-            Set<User> likeUsers = post.getLikes();
-            likeUsers.remove(user);
-            post.setLikes(likeUsers);
-        } 
+        deleteLikedPost(user, post);
         
         // Guardar ambos en la base de datos
         postRepository.save(post);
@@ -170,11 +149,7 @@ public class PostInteractionsController {
         System.out.println("El controlador ha sido llamado");
 
         // Construir la URI del nuevo recurso creado
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(uriBuilder.path("/posts/{id}")
-                                    .buildAndExpand(post.getId())
-                                    .toUri());
-        
+        HttpHeaders headers = buildURI(uriBuilder, postId);
         // Devolver el código de estado 200 con la URI del recurso 
         return new ResponseEntity<>(post, headers, HttpStatus.OK);
     }
@@ -201,15 +176,7 @@ public class PostInteractionsController {
         user.setDislikedPosts(updatedDislikedPosts);
 
         // si el usuario le dió like antes, quito el like
-        Set<Post> likedPosts = user.getLikedPosts();
-        if(likedPosts.contains(post)) {
-            likedPosts.remove(post);
-            user.setLikedPosts(likedPosts);
-
-            Set<User> likeUsers = post.getLikes();
-            likeUsers.remove(user);
-            post.setLikes(likeUsers);
-        }
+        deleteLikedPost(user,post);
         
         // Guardar ambos en la base de datos
         postRepository.save(post);
@@ -218,11 +185,7 @@ public class PostInteractionsController {
         System.out.println("El controlador ha sido llamado");
 
         // Construir la URI del nuevo recurso creado
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(uriBuilder.path("/posts/{id}")
-                                    .buildAndExpand(post.getId())
-                                    .toUri());
-        
+        HttpHeaders headers = buildURI(uriBuilder, postId);
         // Devolver el código de estado 200 con la URI del recurso 
         return new ResponseEntity<>(post, headers, HttpStatus.OK);
     }
@@ -239,15 +202,7 @@ public class PostInteractionsController {
         Post post = postRepository.findById(postId).get();
 
         // elimino el dislike
-        Set<Post> dislikedPosts = user.getDislikedPosts();
-        if(dislikedPosts.contains(post)) {
-            dislikedPosts.remove(post);
-            user.setDislikedPosts(dislikedPosts);
-
-            Set<User> dislikeUsers = post.getDislikes();
-            dislikeUsers.remove(user);
-            post.setDislikes(dislikeUsers);
-        } 
+        deleteDislikePost(user, post);
         
         // Guardar ambos en la base de datos
         postRepository.save(post);
@@ -256,11 +211,7 @@ public class PostInteractionsController {
         System.out.println("El controlador ha sido llamado");
 
         // Construir la URI del nuevo recurso creado
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(uriBuilder.path("/posts/{id}")
-                                    .buildAndExpand(post.getId())
-                                    .toUri());
-        
+        HttpHeaders headers = buildURI(uriBuilder, postId);
         // Devolver el código de estado 200 con la URI del recurso 
         return new ResponseEntity<>(post, headers, HttpStatus.OK);
     }
@@ -293,11 +244,7 @@ public class PostInteractionsController {
         System.out.println("El controlador ha sido llamado");
 
         // Construir la URI del nuevo recurso creado
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(uriBuilder.path("/posts/{id}")
-                                    .buildAndExpand(post.getId())
-                                    .toUri());
-        
+        HttpHeaders headers = buildURI(uriBuilder, postId);
         // Devolver el código de estado 200 con la URI del recurso 
         return new ResponseEntity<>(post, headers, HttpStatus.OK);
     }
@@ -314,15 +261,7 @@ public class PostInteractionsController {
         Post post = postRepository.findById(postId).get();
 
         // elimino el repost
-        Set<Post> reposts = user.getReposts();
-        if(reposts.contains(post)) {
-            reposts.remove(post);
-            user.setReposts(reposts);
-
-            Set<User> repostUsers = post.getReposts();
-            repostUsers.remove(user);
-            post.setReposts(repostUsers);
-        } 
+        deleteRepost(user, post);
         
         // Guardar ambos en la base de datos
         postRepository.save(post);
@@ -331,11 +270,7 @@ public class PostInteractionsController {
         System.out.println("El controlador ha sido llamado");
 
         // Construir la URI del nuevo recurso creado
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(uriBuilder.path("/posts/{id}")
-                                    .buildAndExpand(post.getId())
-                                    .toUri());
-        
+        HttpHeaders headers = buildURI(uriBuilder, postId);
         // Devolver el código de estado 200 con la URI del recurso 
         return new ResponseEntity<>(post, headers, HttpStatus.OK);
     }
@@ -362,11 +297,7 @@ public class PostInteractionsController {
         System.out.println("MI CONTROLADOR PARA ELIMINAR UN POST FUE LLAMADO!!!!!!!**********************************************");
 
         // Construir la URI del nuevo recurso creado
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(uriBuilder.path("/posts/{id}")
-                                    .buildAndExpand(post.getId())
-                                    .toUri());
-        
+        HttpHeaders headers = buildURI(uriBuilder, postId);
         // Devolver el código de estado 200 con la URI del recurso 
         return new ResponseEntity<>(post, headers, HttpStatus.OK);
     }

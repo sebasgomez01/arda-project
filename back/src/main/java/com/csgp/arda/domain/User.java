@@ -26,6 +26,7 @@ public class User {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     @Column(nullable=false, updatable=false)
+    @JsonIgnore
     private Long id;
 
     @Column(nullable=false)
@@ -182,5 +183,21 @@ public class User {
 
     public void setDislikedPosts(Set<Post> dislikedPosts) {
         this.dislikedPosts = dislikedPosts;        
+    }
+
+    public Set<Comment> getLikedComments() {
+        return likedComments;
+    }
+
+    public void setLikedComments(Set<Comment> likedComments) {
+        this.likedComments = likedComments;        
+    }
+
+    public Set<Comment> getDislikedComments() {
+        return dislikedComments;
+    }
+
+    public void setDislikedComments(Set<Comment> dislikedComments) {
+        this.dislikedComments = dislikedComments;        
     }
 }
