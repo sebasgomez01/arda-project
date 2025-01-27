@@ -6,9 +6,13 @@ import com.csgp.arda.domain.CommentRepository;
 import com.csgp.arda.domain.PostRepository;
 import com.csgp.arda.domain.User;
 import com.csgp.arda.domain.UserRepository;
+import com.csgp.arda.domain.event.CommentInteractionEvent;
+import com.csgp.arda.domain.event.PostInteractionEvent;
+import com.csgp.arda.domain.event.PostInteractionEvent.InteractionType;
 
 import java.util.Set;
 
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -27,13 +31,15 @@ public class CommentInteractionsController {
     private final UserRepository userRepository; 
     private final JwtService jwtService;
     private final PostRepository postRepository;
+    private final ApplicationEventPublisher eventPublisher;
 
     public CommentInteractionsController(CommentRepository commentRepository, UserRepository userRepository, 
-    JwtService jwtService, PostRepository postRepository) {
+    JwtService jwtService, PostRepository postRepository, ApplicationEventPublisher eventPublisher) {
         this.commentRepository = commentRepository;
         this.userRepository = userRepository;
         this.jwtService = jwtService;
         this.postRepository = postRepository;
+        this.eventPublisher = eventPublisher;
     }   
 
     private void deleteDislikedComment(User user, Comment comment) {
@@ -97,6 +103,9 @@ public class CommentInteractionsController {
         userRepository.save(user);
         commentRepository.save(comment);
 
+        // publico el evento para generar la notificación asociada
+        eventPublisher.publishEvent(new CommentInteractionEvent(comment.getId(), user.getId(), InteractionType.LIKE));
+
         HttpHeaders headers = buildURI(uriBuilder, commentId);
 
         return new ResponseEntity<>(comment, headers, HttpStatus.OK);
@@ -149,6 +158,9 @@ public class CommentInteractionsController {
         // guardo ambos en la base de datos 
         userRepository.save(user);
         commentRepository.save(comment);
+
+        // publico el evento para generar la notificación asociada
+        eventPublisher.publishEvent(new CommentInteractionEvent(comment.getId(), user.getId(),InteractionType.DISLIKE));
 
         HttpHeaders headers = buildURI(uriBuilder, commentId);
 

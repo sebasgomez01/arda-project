@@ -7,10 +7,13 @@ import com.csgp.arda.domain.Post;
 import com.csgp.arda.domain.PostRepository;
 import com.csgp.arda.domain.User;
 import com.csgp.arda.domain.UserRepository;
+import com.csgp.arda.domain.event.PostInteractionEvent;
+import com.csgp.arda.domain.event.PostInteractionEvent.InteractionType;
 
 import java.io.IOException;
 import java.util.Set;
 
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -39,12 +42,14 @@ public class PostInteractionsController {
     private final PostRepository postRepository;
     private final UserRepository userRepository; 
     private final JwtService jwtService;
+    private final ApplicationEventPublisher eventPublisher;
 
     public PostInteractionsController(PostRepository postRepository, UserRepository userRepository, 
-    JwtService jwtService) {
+    JwtService jwtService, ApplicationEventPublisher eventPublisher) {
         this.postRepository = postRepository;
         this.userRepository = userRepository;
         this.jwtService = jwtService;
+        this.eventPublisher = eventPublisher;
     }
 
     private void deleteDislikePost(User user, Post post) {
@@ -120,6 +125,9 @@ public class PostInteractionsController {
         postRepository.save(post);
         userRepository.save(user);
 
+        // publico el evento para generar la notificación asociada
+        eventPublisher.publishEvent(new PostInteractionEvent(post.getId(), user.getId(), InteractionType.LIKE));
+
         System.out.println("El controlador ha sido llamado");
 
         HttpHeaders headers = buildURI(uriBuilder, postId);
@@ -182,6 +190,9 @@ public class PostInteractionsController {
         postRepository.save(post);
         userRepository.save(user);
 
+        // publico el evento para generar la notificación asociada
+        eventPublisher.publishEvent(new PostInteractionEvent(post.getId(), user.getId(), InteractionType.DISLIKE));
+
         System.out.println("El controlador ha sido llamado");
 
         // Construir la URI del nuevo recurso creado
@@ -240,6 +251,9 @@ public class PostInteractionsController {
         // Guardar ambos en la base de datos
         postRepository.save(post);
         userRepository.save(user);
+
+        // publico el evento para generar la notificación asociada
+        eventPublisher.publishEvent(new PostInteractionEvent(post.getId(), user.getId(), InteractionType.REPOST));
 
         System.out.println("El controlador ha sido llamado");
 

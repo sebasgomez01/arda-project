@@ -1,11 +1,7 @@
 package com.csgp.arda.domain;
 
 import jakarta.persistence.*;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Column;
+
 import java.util.Set;
 
 
@@ -19,17 +15,45 @@ public class Notification {
 
     private String textContent;
 
-    // establezco relación ManyToMany entre User y Notification
-    @ManyToMany(mappedBy = "notifications", fetch = FetchType.LAZY)
-    private Set<User> users;
+    // Relación con el usuario que causó la notificación
+    @ManyToOne
+    @JoinColumn(name = "caused_by_id")
+    private User causedBy;
+
+    // Relación con el usuario que recibió la notificación
+    @ManyToOne
+    @JoinColumn(name = "received_by_id")
+    private User receivedBy;
+
+    // Relación con el Post asociado a la notificaión
+    @ManyToOne
+    @JoinColumn(name = "post_id")
+    private Post post;
+
+    // Relación con el Comment asociado a la notificaión
+    @ManyToOne
+    @JoinColumn(name = "comment_id")
+    private Comment comment;
+
     
     // Constructores
     public Notification() {
 
     }
 
-    public Notification(String textContent) {
+    public Notification(String textContent, User causedBy, User receivedBy, Post post) {
         this.textContent = textContent;
+        this.causedBy = causedBy;
+        this.receivedBy = receivedBy;
+        this.post = post;
+    }
+
+    
+    public Notification(String textContent, User causedBy, User receivedBy, Comment comment) {
+        this.textContent = textContent;
+        this.causedBy = causedBy;
+        this.receivedBy = receivedBy;
+        this.comment = comment;
     }
 
     // Getters y setters

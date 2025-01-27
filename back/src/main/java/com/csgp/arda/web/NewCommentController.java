@@ -49,16 +49,20 @@ public class NewCommentController {
     @PostMapping("/comments")
     public ResponseEntity<Comment> createComment(@RequestBody Comment comment, UriComponentsBuilder uriBuilder, HttpServletRequest request) {
         
+        
+        System.out.println("\n \n \n \n **************** MI CONTROLADOR PARA CREAR UN NUEVO COMENTARIO FUE LLAMADOO ++++++++++++++++ \n \n \n \n \n ");
         // obtengo el usuario autenticado utilizando el token
+        System.out.println(comment);
+
         String username = jwtService.getAuthUser(request);
         
         System.out.println(username);
 
         User user = userRepository.findByUsername(username);
-        
+        System.out.println(user);
         // obtengo el post correspondiente
         Post post = postRepository.findById(comment.getPost().getId()).get();
-
+        System.out.println(post);
         // Crear el nuevo comentario
         Comment createdComment = new Comment(comment.getTextContent(), user, post);
         

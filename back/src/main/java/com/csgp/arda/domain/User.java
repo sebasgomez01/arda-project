@@ -4,13 +4,7 @@ import java.lang.annotation.Inherited;
 
 import javax.annotation.processing.Generated;
 import jakarta.persistence.*;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import jakarta.persistence.Id;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
+
 import java.util.List;
 import java.util.Set;
 import java.util.ArrayList;
@@ -96,15 +90,15 @@ public class User {
     )
     private Set<Comment> dislikedComments;
 
-    // establezco relación ManyToMany entre User y Notification
+    // Relación "causada por" con Notification
+    @OneToMany(mappedBy = "causedBy")
     @JsonIgnore
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-        name = "user_notification",
-        joinColumns = @JoinColumn(name = "user_id"),
-        inverseJoinColumns = @JoinColumn(name = "notification_id")
-    )
-    private Set<Notification> notifications;
+    private Set<Notification> causedNotifications;
+
+    // Relación "recibida por" con Notificacion
+    @OneToMany(mappedBy = "receivedBy")
+    @JsonIgnore
+    private Set<Notification> receivedNotifications;
 
     // establezco relacion ManyToMany entre User y User para modelar los seguidores de un usuario
     @JsonIgnore

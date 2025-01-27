@@ -51,6 +51,11 @@ public class Comment {
     @JsonIgnore
     private Set<User> dislikes;
 
+    // Relación con Notification
+    @OneToMany(mappedBy = "comment")
+    @JsonIgnore
+    private Set<Notification> notifications;
+    
     // Constructores
     public Comment() {
     }
