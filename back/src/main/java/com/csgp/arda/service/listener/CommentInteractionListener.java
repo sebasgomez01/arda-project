@@ -7,12 +7,10 @@ import com.csgp.arda.domain.Comment;
 import com.csgp.arda.domain.CommentRepository;
 import com.csgp.arda.domain.Notification;
 import com.csgp.arda.domain.NotificationRepository;
-import com.csgp.arda.domain.Post;
-import com.csgp.arda.domain.PostRepository;
 import com.csgp.arda.domain.User;
 import com.csgp.arda.domain.UserRepository;
 import com.csgp.arda.domain.event.CommentInteractionEvent;
-import com.csgp.arda.domain.event.PostInteractionEvent;
+
 
 @Component
 public class CommentInteractionListener {
@@ -43,7 +41,7 @@ public class CommentInteractionListener {
         Comment comment = commentRepository.findById(event.getCommentId()).get();
         User receivedBy = comment.getUser();
 
-        String textContent = causedBy.getName() + " liked your comment"; 
+        String textContent = causedBy.getUsername() + " liked your comment"; 
         Notification notificacion = new Notification(textContent, causedBy, receivedBy, comment);
         notificactionRepository.save(notificacion);    
 
@@ -56,7 +54,7 @@ public class CommentInteractionListener {
         Comment comment = commentRepository.findById(event.getCommentId()).get();
         User receivedBy = comment.getUser();
 
-        String textContent = causedBy.getName() + " disliked your comment"; 
+        String textContent = causedBy.getUsername() + " disliked your comment"; 
         Notification notificacion = new Notification(textContent, causedBy, receivedBy, comment);
         notificactionRepository.save(notificacion);    
 

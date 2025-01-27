@@ -12,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.http.HttpMethod;
 import java.util.Arrays;
@@ -26,12 +27,14 @@ public class SecurityConfig {
     private final UserDetailsServiceImplementation userDetailsServiceImplementation;
     private final AuthenticationFilter authenticationFilter;
     private final AuthEntryPoint exceptionHandler;
-   
+    private final CustomLogoutHandler customLogoutHandler;
+
     public SecurityConfig(UserDetailsServiceImplementation userDetailsServiceImplementation, 
-    AuthenticationFilter authenticationFilter, AuthEntryPoint exceptionHandler) {
+    AuthenticationFilter authenticationFilter, AuthEntryPoint exceptionHandler, CustomLogoutHandler customLogoutHandler) {
         this.userDetailsServiceImplementation = userDetailsServiceImplementation;
         this.authenticationFilter = authenticationFilter;
         this.exceptionHandler = exceptionHandler;
+        this.customLogoutHandler = customLogoutHandler;         
     }
 
     // Para autenticar usuarios de la base de datos
@@ -67,15 +70,15 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        
+        /*
         http.csrf((csrf) -> csrf.disable())
             .cors(withDefaults())
             .sessionManagement((sessionManagement) -> 
                 sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests((authorizeHttpRequests) ->
                 authorizeHttpRequests.anyRequest().permitAll())
-
-        /* 
+         */
+        
         http.csrf((csrf) -> csrf.disable())
             .cors(withDefaults()) // agrego CORS
             .sessionManagement((sessionManagement) -> 
@@ -85,12 +88,16 @@ public class SecurityConfig {
                     .requestMatchers(HttpMethod.GET, "/actuator/mappings").permitAll()
                     .requestMatchers(HttpMethod.POST, "/users/credentials").permitAll()
                     .requestMatchers(HttpMethod.POST, "/users/login").permitAll()
-                    .requestMatchers(HttpMethod.GET, "/").permitAll()
                     .anyRequest()    
-                    .authenticated())*/
+                    .authenticated())
             .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class) // agrego el filtro para autenticación en cada petición
             .exceptionHandling((exceptionHandling) -> 
-                exceptionHandling.authenticationEntryPoint(exceptionHandler));
+                exceptionHandling.authenticationEntryPoint(exceptionHandler))
+            .logout(l->l
+                        .logoutUrl("/logout")
+                        .addLogoutHandler(customLogoutHandler)
+                        .logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext()
+                        ));;
             
         return http.build();    
     

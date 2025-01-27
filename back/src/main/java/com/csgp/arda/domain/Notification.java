@@ -56,6 +56,12 @@ public class Notification {
         this.comment = comment;
     }
 
+    public Notification(String textContent, User causedBy, User receivedBy) {
+        this.textContent = textContent;
+        this.causedBy = causedBy;
+        this.receivedBy = receivedBy;
+    }
+
     // Getters y setters
     Long getId() {
         return this.id;

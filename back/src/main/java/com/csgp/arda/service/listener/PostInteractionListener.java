@@ -40,7 +40,7 @@ public class PostInteractionListener {
         Post post = postRepository.findById(event.getPostId()).get();
         User receivedBy = post.getUser();
 
-        String textContent = causedBy.getName() + " liked your post"; 
+        String textContent = causedBy.getUsername() + " liked your post"; 
         Notification notificacion = new Notification(textContent, causedBy, receivedBy, post);
         notificactionRepository.save(notificacion);    
 
@@ -52,7 +52,7 @@ public class PostInteractionListener {
         Post post = postRepository.findById(event.getPostId()).get();
         User receivedBy = post.getUser();
 
-        String textContent = causedBy.getName() + " disliked your post"; 
+        String textContent = causedBy.getUsername() + " disliked your post"; 
         Notification notificacion = new Notification(textContent, causedBy, receivedBy, post);
         notificactionRepository.save(notificacion);    
 
@@ -64,7 +64,7 @@ public class PostInteractionListener {
         Post post = postRepository.findById(event.getPostId()).get();
         User receivedBy = post.getUser();
 
-        String textContent = causedBy.getName() + " repost your post"; 
+        String textContent = causedBy.getUsername() + " repost your post"; 
         Notification notificacion = new Notification(textContent, causedBy, receivedBy, post);
         notificactionRepository.save(notificacion);    
         System.out.println("Post " + event.getPostId() + " fue repostado por " + event.getUserId());

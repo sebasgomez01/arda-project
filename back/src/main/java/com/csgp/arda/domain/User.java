@@ -194,4 +194,12 @@ public class User {
     public void setDislikedComments(Set<Comment> dislikedComments) {
         this.dislikedComments = dislikedComments;        
     }
+
+    public Set<User> getFollowers() {
+        return followers;
+    }
+
+    public void setFollowers(Set<User> followers) {
+        this.followers = followers;
+    }
 }

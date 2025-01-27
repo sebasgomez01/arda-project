@@ -26,7 +26,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
             // extraigp el token del header
             String jwt = request.getHeader(HttpHeaders.AUTHORIZATION);
             if(jwt != null) {
-                // si el token no es nulo, obtento el usuario y lo autentico
+                // si el token no es nulo, obtengo el usuario y lo autentico
                 String user = jwtService.getAuthUser(request);
 
                 Authentication authenticaction = new UsernamePasswordAuthenticationToken(user, null, java.util.Collections.emptyList());
