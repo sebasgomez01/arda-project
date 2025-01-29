@@ -110,6 +110,10 @@ public class User {
     )
     private Set<User> followers;
 
+    @OneToMany(mappedBy = "user")
+    @JsonIgnore
+    private Set<Token> tokens;
+
     // Constructores
     public User() {
 

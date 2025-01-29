@@ -3,7 +3,9 @@ package com.csgp.arda;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.stereotype.Component;
 
+import com.csgp.arda.domain.Token;
 import com.csgp.arda.domain.UserRepository;
+import com.csgp.arda.domain.TokenRepository;
 import com.csgp.arda.service.JwtService;
 import com.csgp.arda.domain.User;
 
@@ -19,10 +21,12 @@ public class CustomLogoutHandler implements LogoutHandler {
 
     private final JwtService jwtService;
     private final UserRepository userRepository;
+    private final TokenRepository tokenRepository;
 
-    public CustomLogoutHandler(JwtService jwtService, UserRepository userRepository) {
+    public CustomLogoutHandler(JwtService jwtService, UserRepository userRepository, TokenRepository tokenRepository) {
         this.jwtService = jwtService;
         this.userRepository = userRepository;
+        this.tokenRepository = tokenRepository;
     }
 
     @Override
@@ -37,16 +41,16 @@ public class CustomLogoutHandler implements LogoutHandler {
         }
 
         String token = authHeader.substring(7);
-        //Token storedToken = tokenRepository.findByAccessToken(token).orElse(null);
-        //User user = storedToken.getUser();
-        User user = userRepository.findByUsername(jwtService.getAuthUser(request));
+        Token storedToken = tokenRepository.findByAccessToken(token).orElse(null);
+        User user = storedToken.getUser();
+        //User user = userRepository.findByUsername(jwtService.getAuthUser(request));
 
-        //if(storedToken != null) {
-           //storedToken.setLoggedOut(true);
-            //tokenRepository.save(storedToken);
+        if(storedToken != null) {
+            storedToken.setisLoggedOut(true);
+            tokenRepository.save(storedToken);
 
-        //}
+        }
 
-        //tokenRepository.deleteByUserId(user.getId());
+        tokenRepository.deleteByUserId(user.getId());
     }
 }

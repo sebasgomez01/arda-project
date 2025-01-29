@@ -1,6 +1,11 @@
 package com.csgp.arda.service;
 
 import org.springframework.stereotype.Component;
+
+import com.csgp.arda.domain.Token;
+import com.csgp.arda.domain.TokenRepository;
+import com.csgp.arda.domain.User;
+
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
@@ -11,9 +16,15 @@ import java.util.Date;
 
 @Component
 public class JwtService {
+
+    TokenRepository tokenRepository;
+
+    public JwtService(TokenRepository tokenRepository) {
+        this.tokenRepository = tokenRepository;
+    }
+
     // Defino constantes:
-    static final long EXPIRATIONTIME = 86400000;
-    // 1 day in ms. Should be shorter in production.
+    static final long EXPIRATIONTIME = 3600000;
     static final String PREFIX = "Bearer";
 
     // genero la clave secreta
@@ -46,5 +57,13 @@ public class JwtService {
         }
 
         return null;
+    }
+
+    public Boolean validateToken(String token, String username) {
+        Token tokenEntity = tokenRepository.findByAccessToken(token).get();
+        Boolean isValidToken = !tokenEntity.getIsLoggedOut();
+
+        return isValidToken && username.equals(tokenEntity.getUser().getUsername());
+
     }
 }

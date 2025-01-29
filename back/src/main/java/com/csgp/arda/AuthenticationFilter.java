@@ -25,14 +25,22 @@ public class AuthenticationFilter extends OncePerRequestFilter {
         throws ServletException, java.io.IOException {
             // extraigp el token del header
             String jwt = request.getHeader(HttpHeaders.AUTHORIZATION);
+            //jwt = jwt.substring(7);
             if(jwt != null) {
                 // si el token no es nulo, obtengo el usuario y lo autentico
-                String user = jwtService.getAuthUser(request);
+                String username = jwtService.getAuthUser(request);
+                jwt = jwt.substring(7);
+                if(jwtService.validateToken(jwt, username)) {
+                    Authentication authenticaction = new UsernamePasswordAuthenticationToken(username, 
+                    null, java.util.Collections.emptyList());
 
-                Authentication authenticaction = new UsernamePasswordAuthenticationToken(user, null, java.util.Collections.emptyList());
-
-                // en SecurityContextHolder Spring guarda detalles del usuario actualmente autenticado
-                SecurityContextHolder.getContext().setAuthentication(authenticaction);
+                    // en SecurityContextHolder Spring guarda detalles del usuario actualmente autenticado
+                    SecurityContextHolder.getContext().setAuthentication(authenticaction);
+                } else {
+                    System.out.println("\n \n \n \n ****************************************************************************** \n \n \n \n");
+                    System.out.println("EL TOKEN NO FUE VALIDADO");
+                    System.out.println("\n \n \n \n ****************************************************************************** \n \n \n \n");
+                }
             } 
 
             filterChain.doFilter(request, response);
