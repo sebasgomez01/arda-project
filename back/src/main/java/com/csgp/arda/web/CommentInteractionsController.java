@@ -3,11 +3,10 @@ package com.csgp.arda.web;
 import com.csgp.arda.service.JwtService;
 import com.csgp.arda.domain.Comment;
 import com.csgp.arda.domain.CommentRepository;
-import com.csgp.arda.domain.PostRepository;
 import com.csgp.arda.domain.User;
 import com.csgp.arda.domain.UserRepository;
 import com.csgp.arda.domain.event.CommentInteractionEvent;
-import com.csgp.arda.domain.event.PostInteractionEvent;
+
 import com.csgp.arda.domain.event.PostInteractionEvent.InteractionType;
 
 import java.util.Set;
@@ -20,7 +19,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.util.UriComponentsBuilder;
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -30,15 +28,13 @@ public class CommentInteractionsController {
     private final CommentRepository commentRepository;
     private final UserRepository userRepository; 
     private final JwtService jwtService;
-    private final PostRepository postRepository;
     private final ApplicationEventPublisher eventPublisher;
 
     public CommentInteractionsController(CommentRepository commentRepository, UserRepository userRepository, 
-    JwtService jwtService, PostRepository postRepository, ApplicationEventPublisher eventPublisher) {
+    JwtService jwtService, ApplicationEventPublisher eventPublisher) {
         this.commentRepository = commentRepository;
         this.userRepository = userRepository;
         this.jwtService = jwtService;
-        this.postRepository = postRepository;
         this.eventPublisher = eventPublisher;
     }   
 

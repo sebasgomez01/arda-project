@@ -60,6 +60,10 @@ public class JwtService {
     }
 
     public Boolean validateToken(String token, String username) {
+        if(tokenRepository.findByAccessToken(token).isEmpty()) {
+            return false;
+        }
+        
         Token tokenEntity = tokenRepository.findByAccessToken(token).get();
         Boolean isValidToken = !tokenEntity.getIsLoggedOut();
 
