@@ -34,7 +34,6 @@ const getAxiosConfig = (): AxiosRequestConfig => {
 
 const Postlist: React.FC<ComponentBProps> = ( {newPostMessage} ) => {
 
-
     console.log( newPostMessage )
 
     const getPosts = async (): Promise<PostResponse[]> => {
@@ -49,7 +48,7 @@ const Postlist: React.FC<ComponentBProps> = ( {newPostMessage} ) => {
     }
     getPosts();
 
-    const data = [];
+    
 
     return (
       <>

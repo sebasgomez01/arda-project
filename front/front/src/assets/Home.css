@@ -1,0 +1,31 @@
+.left {
+    display: flex;
+    flex-direction: column;
+    background-color: black;
+    width: 25%;
+    height: 100%;
+    align-items: center;
+    justify-content: left;
+    position: sticky; 
+    top: 0;
+}
+
+.center { 
+    display:flex;
+    flex-direction: column;
+    width: 45%;
+    background-color: black;
+    border-right: 1px solid rgba(255, 255, 255, 0.3);
+    border-left: 1px solid rgba(255, 255, 255, 0.3);
+  }
+  
+
+.right {
+    display: flex;
+    flex-direction: column;
+    position: sticky;
+    top: 0;
+    width: 25%;
+    height: 100%;
+    padding-left: 2%;
+}

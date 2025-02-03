@@ -1,21 +1,10 @@
 import LeftBarItem from "./LeftBarItem";
 import LeftBarPostButton from "./LeftBarPostButton";
-
+import '../assets/Home.css'
 import CenterNewPost from "./CenterNewPost";
-import CenterTopBar from "./CenterTopBar";
 import Postlist from "./Postlist"
-import axios from "axios";
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import NotificationList from "./NotificationList"
 import { useState } from "react";
-
-const queryClient = new QueryClient();
-/*
-const apiURL: string = "https://sturdy-space-giggle-679gg695r6phrggw-8080.app.github.dev";
-axios.get(apiURL + "/api/posts")
-.then(response => console.log(response))
-.catch(error => console.log(error))
-*/
-
 
 const Home = () => {
     
@@ -25,9 +14,9 @@ const Home = () => {
         <>
             <div className="left">
                 <h1 className='logo'>arda</h1>
-                <LeftBarItem text='Inicio' />
-                <LeftBarItem text='Noficaciones' />
-                <LeftBarItem text='Perfil' />
+                <LeftBarItem text='Home' link='/home' />
+                <LeftBarItem text='Profile' link='/profile' />
+                <LeftBarItem text='Log Out' link='/login'/>
                 <LeftBarPostButton />
             </div>
             <div className="center">
@@ -35,6 +24,8 @@ const Home = () => {
                 <Postlist newPostMessage={newPostMessage} />
             </div>
             <div className="right">
+                <h2 className='logo'>Notifications</h2>
+                <NotificationList />
             </div>
         </>
     );

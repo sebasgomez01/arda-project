@@ -6,7 +6,7 @@ import apiClient from '../axiosConfig.ts';
 const Login = () => {
     const location = useLocation();
     const navigate = useNavigate(); // Hook para navegar a otra ruta
-    const [newAccountMessage, setNewAccountMessage] = useState<boolean>(false);//useState(false);
+    const [newAccountMessage, setNewAccountMessage] = useState<boolean>(false);
     const [username, setUsername] = useState<string>(''); // Estado para username
     const [password, setPassword] = useState<string>(''); // Estado para password
 

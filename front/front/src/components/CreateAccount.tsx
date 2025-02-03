@@ -10,7 +10,6 @@ const CreateAccount = () => {
     const navigate = useNavigate();
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-        //event.preventDefault();
         event.preventDefault();
 
         const userDataCredentials = {
@@ -24,12 +23,12 @@ const CreateAccount = () => {
             
             const response = await apiClient.post("/users/credentials", userDataCredentials);
             console.log('User created successfully:', response);
-            //setName('');
-            //setUsername('');
-            //setPassword('');
-            //navigate( "/login", { state: { fromCreateAccount: true } });
+            setName('');
+            setUsername('');
+            setPassword('');
+            navigate( "/login", { state: { fromCreateAccount: true } });
         } catch (error) {
-            console.error('Error creating post:', error);
+            console.error('Error creating account:', error);
         }       
     }
 

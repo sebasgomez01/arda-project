@@ -1,6 +1,6 @@
 .leftBarItemContainer {
     display: flex;
-    width: 70%;
+    width: 80%;
 }
 
 .leftBarItemIcon {
@@ -10,6 +10,7 @@
 .leftBarItemText {
     display:flex;
     justify-content: left;
-    width: 80%;
+    width: 100%;
     margin-bottom: 0;
+    color: whitesmoke;
 }

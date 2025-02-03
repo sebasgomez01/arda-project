@@ -27,7 +27,7 @@ const CenterNewPost: React.FC<ComponentAProps> = ( {setNewPostMessage} ) => {
         let postIdentifier: string;
         
         try {
-            const response = await apiClient.post("posts", postData);
+            const response = await apiClient.post("/posts", postData);
             console.log("response: ")
             console.log(response)
             postIdentifier = response.data.id;
