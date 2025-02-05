@@ -9,6 +9,7 @@ import { useState } from "react";
 const Home = () => {
     
     const [newPostMessage, setNewPostMessage] = useState<string>('');
+    const [reloadPosts, setReloadPosts] = useState<boolean>(false);
 
     return (
         <>
@@ -20,8 +21,8 @@ const Home = () => {
                 <LeftBarPostButton />
             </div>
             <div className="center">
-                <CenterNewPost setNewPostMessage={setNewPostMessage} />
-                <Postlist newPostMessage={newPostMessage} />
+                <CenterNewPost setNewPostMessage={setNewPostMessage} setReloadPosts={setReloadPosts} />
+                <Postlist newPostMessage={newPostMessage} reloadPosts={reloadPosts} setReloadPosts={setReloadPosts} />
             </div>
             <div className="right">
                 <h2 className='logo'>Notifications</h2>

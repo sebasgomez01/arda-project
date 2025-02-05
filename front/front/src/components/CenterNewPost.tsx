@@ -1,26 +1,65 @@
 import '../assets/CenterNewPost.css'
-import { useState } from 'react';
-import axios, { AxiosRequestConfig } from 'axios'; 
+import React, { ReactChild, useState } from 'react';
 import apiClient from '../axiosConfig';
 
 interface ComponentAProps {
     setNewPostMessage: React.Dispatch<React.SetStateAction<string>>;
+    setReloadPosts: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const CenterNewPost: React.FC<ComponentAProps> = ( {setNewPostMessage} ) => {
+const CenterNewPost: React.FC<ComponentAProps> = ( {setNewPostMessage, setReloadPosts} ) => {
+
     const [title, setTitle] = useState('');
     const [textContent, setTextContent] = useState('');
     const [selectedFile, setSelectedFile] = useState<File | null>(null);  // Nuevo estado para la imagen
     const [previewImage, setPreviewImage] = useState<string | null>(null); // estado para el link temporal a la imagen
     const [imageBool, setImageBool] = useState(false);
 
-     const handleSubmit = async (event) => {
+    const handleUpload = async (postIdentifier: string) => {
+        if (!selectedFile) return;
+
+        const formData = new FormData();
+        formData.append('file', selectedFile);
+        formData.append('postIdentifier', postIdentifier);
+
+        try {
+            const response = await apiClient.post("/posts/image", formData
+                /*
+                {
+                    headers: {
+                    'Content-Type': 'multipart/form-data',
+                    },
+                }
+                */
+            );
+
+            console.log('Image uploaded successfully:', response.data);
+            setPreviewImage(null);
+            setSelectedFile(null);
+        } catch (error) {
+            console.error('Error uploading image:', error);
+        }
+    };
+
+    
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (event.target.files && event.target.files.length > 0) {
+            const file = event.target.files[0];
+            setSelectedFile(file);
+            setImageBool(true);
+            setPreviewImage(URL.createObjectURL(file)); // Genera una URL temporal para la previsualización
+        }
+    };
+
+
+    const handleSubmit = async (event) => {
+        
         event.preventDefault();
 
         const postData = {
             title: title,
             textContent: textContent,
-            imagePath: "",
+            imagePath: null,
             username: sessionStorage.getItem("username")
         };
 
@@ -36,8 +75,11 @@ const CenterNewPost: React.FC<ComponentAProps> = ( {setNewPostMessage} ) => {
             setTitle('');
             setTextContent('');
             // mando la imagen 
-            await handleUpload(postIdentifier);
+            if(imageBool) {
+                await handleUpload(postIdentifier);
+            }
             setNewPostMessage('New post!!!')
+            setReloadPosts(true);
         } catch (error) {
             console.error('Error creating post:', error);
         }
@@ -45,45 +87,10 @@ const CenterNewPost: React.FC<ComponentAProps> = ( {setNewPostMessage} ) => {
         
     }
 
-    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        if (event.target.files && event.target.files.length > 0) {
-            const file = event.target.files[0];
-            setSelectedFile(file);
-            setImageBool(true);
-            setPreviewImage(URL.createObjectURL(file)); // Genera una URL temporal para la previsualización
-        }
-    };
-
-    const handleUpload = async (postIdentifier: string) => {
-        if (!selectedFile) return;
-
-        const formData = new FormData();
-        formData.append('file', selectedFile);
-        formData.append('postIdentifier', postIdentifier);
-
-        try {
-            const response = await apiClient.post("/posts/image", formData
-
-                /*{
-                    headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
-                }
-                */
-            );
-            console.log('Image uploaded successfully:', response.data);
-            setPreviewImage(null);
-            setSelectedFile(null);
-        } catch (error) {
-            console.error('Error uploading image:', error);
-        }
-    };
-
     return (
         <div className='centerNewPostContainer'>
             <div className='centerNewPostProfileImageContainer'>
-                <img className='centerNewPostProfileImage' src="#" alt="Imagen">
-                </img>
+                <img className='centerNewPostProfileImage' src="#" alt="Imagen"></img>
             </div>
             <div className='centerNewPostContent'> 
                 <form className="centerNewPostContentForm" onSubmit={handleSubmit}>

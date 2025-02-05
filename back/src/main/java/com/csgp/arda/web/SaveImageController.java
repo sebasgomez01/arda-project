@@ -33,7 +33,7 @@ public class SaveImageController {
         this.postRepository = postRepository;
     }
 
-    @GetMapping("/api/posts/image/{filename:.+}")
+    @GetMapping("/posts/image/{filename:.+}")
 	@ResponseBody
 	public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
 
@@ -55,7 +55,7 @@ public class SaveImageController {
 
 
     
-    @PostMapping("/api/posts/image")
+    @PostMapping("/posts/image")
     public String handleFileUpload(@RequestParam("file") MultipartFile file,
     @RequestParam("postIdentifier") String postIdentifier) {
 

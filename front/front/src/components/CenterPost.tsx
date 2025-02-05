@@ -1,4 +1,3 @@
-
 import '../assets/CenterPost.css'
 import apiClient from '../axiosConfig';
 
@@ -10,7 +9,7 @@ type CenterPostProps = {
     srcImage: string; 
     id: string;  
 }
-
+/*
 const deleteElem = async () => {
   // Realizo la petición DELETE
   apiClient.delete(`/posts/${bookID}`)
@@ -27,6 +26,7 @@ const deleteElem = async () => {
       // Ejecuto la función deleteEvent que emite el evento deleteItem para que lo escuche el componente App.vue
     ;
 }
+  */
 
 const CenterPost = (props: CenterPostProps) => {
 
@@ -39,7 +39,7 @@ const CenterPost = (props: CenterPostProps) => {
             <h5 className="centerPostContentAuthorInfo">from: {props.user} </h5>
             <div className="centerPostContent">
                 <p className="centerPostContentText"> {props.textContent} </p>
-                { props.srcImage && <img className='centerPostImage' src={props.srcImage} alt="Imagen de marcador de posición"></img> }
+                { props.srcImage && <img className='centerPostImage' src={ `${import.meta.env.VITE_API_URL}/posts/image`} alt="Imagen del post"></img> }
                 { props.srcImage && <p className="centerPostImgInfo"></p> }
                 <div className="centerPostButtons">
                   <button className='postButton'>Me gusta</button>

@@ -46,7 +46,7 @@ public class NewPostController {
         User user = userRepository.findByUsername(username);
         
         // Crear el nuevo post
-        Post createdPost = new Post(post.getTitle(), post.getTextContent(), user, "ruta_a_la_imagen");
+        Post createdPost = new Post(post.getTitle(), post.getTextContent(), user, null);
         
         // Guardar el post en la base de datos
         postRepository.save(createdPost);

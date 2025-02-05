@@ -6,54 +6,52 @@ import CenterPost from "./CenterPost";
 import { useState, useEffect } from 'react';
 
 /*
-const replaceLinkByUsername = async (post: PostResponse) => {
-    const hrefUser = post._links.user.href;
-    const updatedUrl = hrefUser.replace("http://localhost:8080", import.meta.env.VITE_API_URL);
-    const response = await axios.get(updatedUrl); // obtengo
-    const user: UserResponse = response.data;
-    console.log("response: ", response);
-    console.log("user: ", user);
-    return user.username;
-}
-    */
+  const replaceLinkByUsername = async (post: PostResponse) => {
+      const hrefUser = post._links.user.href;
+      const updatedUrl = hrefUser.replace("http://localhost:8080", import.meta.env.VITE_API_URL);
+      const response = await axios.get(updatedUrl); // obtengo
+      const user: UserResponse = response.data;
+      console.log("response: ", response);
+      console.log("user: ", user);
+      return user.username;
+  }
+*/
+
 
 interface ComponentBProps {
-  newPostMessage: string;
+    newPostMessage: string;
+    setReloadPosts: React.Dispatch<React.SetStateAction<boolean>>
+    reloadPosts: boolean;
 }
 
-const getAxiosConfig = (): AxiosRequestConfig => {
-  const token = sessionStorage.getItem("jwt");
-  return {
-      headers: {
-          'Authorization': token,
-          'Content-Type': 'application/json',
-      },
-  }; 
-};
 
 
-const Postlist: React.FC<ComponentBProps> = ( {newPostMessage} ) => {
+const Postlist: React.FC<ComponentBProps> = ( {newPostMessage, reloadPosts, setReloadPosts} ) => {
+    const [posts, setPosts] = useState<PostResponse[]>([]); 
 
     console.log( newPostMessage )
 
-    const getPosts = async (): Promise<PostResponse[]> => {
+    useEffect(() => {
+      const getPosts = async (): Promise<PostResponse[]> => {
         //const token = sessionStorage.getItem("jwt");
         //console.log("El token obtenido de sessionStorage es:", token);
         const response = await apiClient.get("/posts");
         console.log("response:", response);
-        console.log("post 0:", response.data[0]);
-        console.log("post 1:", response.data[1]);
         console.log("data:", response.data);
+        setPosts(response.data._embedded.posts);
         return response.data;
-    }
-    getPosts();
+      }
 
+      getPosts();
+      setReloadPosts(false);
+    }, [reloadPosts]);
     
+
 
     return (
       <>
           {
-              data.map((post: PostResponse) => {
+              posts.map((post: PostResponse) => {
                   //console.log(post._links.self.href)
                   return (
                     <CenterPost
@@ -61,7 +59,7 @@ const Postlist: React.FC<ComponentBProps> = ( {newPostMessage} ) => {
                       title={post.title}
                       textContent={post.textContent}
                       user={post.user.username || "Loading..."} // Muestra "Loading..." mientras se resuelve la promesa
-                      imageBool={false}
+                      imageBool={true}
                       srcImage={post.imagePath}
                       id={post._links.self.href}
                     />
