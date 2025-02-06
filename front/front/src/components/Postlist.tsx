@@ -21,12 +21,13 @@ import { useState, useEffect } from 'react';
 interface ComponentBProps {
     newPostMessage: string;
     setReloadPosts: React.Dispatch<React.SetStateAction<boolean>>
+    setShowCommentModal: React.Dispatch<React.SetStateAction<boolean>>
     reloadPosts: boolean;
 }
 
 
 
-const Postlist: React.FC<ComponentBProps> = ( {newPostMessage, reloadPosts, setReloadPosts} ) => {
+const Postlist: React.FC<ComponentBProps> = ( {newPostMessage, reloadPosts, setReloadPosts, setShowCommentModal} ) => {
     const [posts, setPosts] = useState<PostResponse[]>([]); 
 
     console.log( newPostMessage )
@@ -65,6 +66,9 @@ const Postlist: React.FC<ComponentBProps> = ( {newPostMessage, reloadPosts, setR
                       imageBool={true}
                       srcImage={post.imagePath}
                       id={postId}
+                      setReloadPosts={setReloadPosts}
+                      reloadPosts={reloadPosts}
+                      setShowCommentModal={setShowCommentModal}
                     />
                   );
               })

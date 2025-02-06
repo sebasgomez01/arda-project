@@ -8,6 +8,9 @@ type CenterPostProps = {
     imageBool: boolean
     srcImage: string; 
     id: string;  
+    setReloadPosts: React.Dispatch<React.SetStateAction<boolean>>
+    reloadPosts: boolean;
+    setShowCommentModal: React.Dispatch<React.SetStateAction<boolean>>
 }
 /*
 const deleteElem = async () => {
@@ -36,6 +39,11 @@ const deleteElem = async () => {
 
   const handleDelete = async () => {
     const response = await apiClient.delete(`/posts/${props.id}`); 
+    props.setReloadPosts(true);
+  }
+
+  const handleComment = () => {
+    props.setShowCommentModal(true);
   }
 
   return (
@@ -51,7 +59,7 @@ const deleteElem = async () => {
                 { props.srcImage && <p className="centerPostImgInfo"></p> }
                 <div className="centerPostButtons">
                   <button className='postButton' onClick={handleLike} >Me gusta</button>
-                  <button className='postButton'>Comentar</button>
+                  <button className='postButton' onClick={handleComment} >Comentar</button>
                   <button className='postButton'>Editar</button>
                   <button className='postButton' onClick={handleDelete}>Eliminar</button>
                 </div>

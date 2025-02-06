@@ -2,6 +2,8 @@ package com.csgp.arda.web;
 
 
 import com.csgp.arda.service.JwtService;
+import com.csgp.arda.domain.Notification;
+import com.csgp.arda.domain.NotificationRepository;
 import com.csgp.arda.domain.Post;
 import com.csgp.arda.domain.PostRepository;
 import com.csgp.arda.domain.User;
@@ -32,13 +34,15 @@ public class PostInteractionsController {
     private final UserRepository userRepository; 
     private final JwtService jwtService;
     private final ApplicationEventPublisher eventPublisher;
+    private final NotificationRepository notificationRepository;
 
     public PostInteractionsController(PostRepository postRepository, UserRepository userRepository, 
-    JwtService jwtService, ApplicationEventPublisher eventPublisher) {
+    JwtService jwtService, ApplicationEventPublisher eventPublisher, NotificationRepository notificationRepository) {
         this.postRepository = postRepository;
         this.userRepository = userRepository;
         this.jwtService = jwtService;
         this.eventPublisher = eventPublisher;
+        this.notificationRepository = notificationRepository;
     }
 
     private void deleteDislikePost(User user, Post post) {
@@ -75,6 +79,10 @@ public class PostInteractionsController {
             repostUsers.remove(user);
             post.setReposts(repostUsers);
         } 
+    }
+
+    private void deletePostNotifications(Post post) {
+        notificationRepository.deleteAllByPostId(post.getId());   
     }
 
     private HttpHeaders buildURI(UriComponentsBuilder uriBuilder, Long id) {
@@ -293,6 +301,7 @@ public class PostInteractionsController {
         deleteDislikePost(user, post);
         deleteLikedPost(user, post);
         deleteRepost(user, post);
+        notificationRepository.deleteAllByPostId(post.getId());   
         // FALTA ELIMINAR LAS NOTIFICACIONES ASOCIADAS EN LA TABLA NOTIFICACION
     
         // elimino el post 
