@@ -72,9 +72,11 @@ public class SaveImageController {
         System.out.println(post.getTitle());
 
 		storageService.store(file);
-        String imagePath = storageService.load(file.getOriginalFilename()).toString();
+        
+        //String imagePath = storageService.load(file.getOriginalFilename()).toString();
+        String imageName = file.getOriginalFilename();
 
-        post.setImagePath(imagePath);
+        post.setImagePath(imageName);
         System.out.println(post);
         postRepository.save(post);
 

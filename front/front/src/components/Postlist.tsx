@@ -46,13 +46,16 @@ const Postlist: React.FC<ComponentBProps> = ( {newPostMessage, reloadPosts, setR
       setReloadPosts(false);
     }, [reloadPosts]);
     
-
+    function getPostId(url: string): string {
+      return url.substring(url.lastIndexOf("/") + 1);
+    }
 
     return (
       <>
           {
               posts.map((post: PostResponse) => {
-                  //console.log(post._links.self.href)
+                  let postId:string = getPostId(post._links.self.href);
+
                   return (
                     <CenterPost
                       key={post._links.self.href}
@@ -61,7 +64,7 @@ const Postlist: React.FC<ComponentBProps> = ( {newPostMessage, reloadPosts, setR
                       user={post.user.username || "Loading..."} // Muestra "Loading..." mientras se resuelve la promesa
                       imageBool={true}
                       srcImage={post.imagePath}
-                      id={post._links.self.href}
+                      id={postId}
                     />
                   );
               })

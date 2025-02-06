@@ -28,7 +28,15 @@ const deleteElem = async () => {
 }
   */
 
-const CenterPost = (props: CenterPostProps) => {
+  const CenterPost = (props: CenterPostProps) => {
+  
+  const handleLike = async () => {
+    const response = await apiClient.patch(`/posts/like/${props.id}`);
+  } 
+
+  const handleDelete = async () => {
+    const response = await apiClient.delete(`/posts/${props.id}`); 
+  }
 
   return (
     <div className="centerPostContainer">
@@ -39,13 +47,13 @@ const CenterPost = (props: CenterPostProps) => {
             <h5 className="centerPostContentAuthorInfo">from: {props.user} </h5>
             <div className="centerPostContent">
                 <p className="centerPostContentText"> {props.textContent} </p>
-                { props.srcImage && <img className='centerPostImage' src={ `${import.meta.env.VITE_API_URL}/posts/image`} alt="Imagen del post"></img> }
+                { props.srcImage && <img className='centerPostImage' src={ `${import.meta.env.VITE_API_URL}/posts/image/${props.srcImage}`} alt="Imagen del post"></img> }
                 { props.srcImage && <p className="centerPostImgInfo"></p> }
                 <div className="centerPostButtons">
-                  <button className='postButton'>Me gusta</button>
+                  <button className='postButton' onClick={handleLike} >Me gusta</button>
                   <button className='postButton'>Comentar</button>
                   <button className='postButton'>Editar</button>
-                  <button className='postButton'>Eliminar</button>
+                  <button className='postButton' onClick={handleDelete}>Eliminar</button>
                 </div>
             </div>
         </div>

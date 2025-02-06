@@ -293,6 +293,7 @@ public class PostInteractionsController {
         deleteDislikePost(user, post);
         deleteLikedPost(user, post);
         deleteRepost(user, post);
+        // FALTA ELIMINAR LAS NOTIFICACIONES ASOCIADAS EN LA TABLA NOTIFICACION
     
         // elimino el post 
         postRepository.deleteById(postId);
