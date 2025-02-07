@@ -66,3 +66,42 @@ export type PostCommentData = {
     }, 
     user: string   
 }
+
+export type CommentResponse = {
+    id: string,
+    textContent: string,
+    user: {
+        name: string,
+        username: string
+    }, 
+    _links: {
+        comment: {
+            href: string
+        },
+        dislikes: {
+            href: string
+        },
+        likes: {
+            href: string
+        },
+        notifications: {
+            href: string
+        },
+        parentComment: {
+            href: string
+        },
+        post: {
+            href: string 
+        },
+        replies: {
+            href: string 
+        },
+        self: {
+            href: string 
+        },
+        user: {
+            href: string 
+        },
+   };
+
+}

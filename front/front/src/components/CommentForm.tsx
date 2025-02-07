@@ -14,6 +14,7 @@ const CommentForm = (props: CommentFormProps) => {
 
     const handleSubmit = async () => {
         props.postCommentData.textContent = textContent;
+        props.postCommentData.user = null;
         try {
             const response = await apiClient.post("/comments", props.postCommentData);
             console.log(response);

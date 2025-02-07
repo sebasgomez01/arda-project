@@ -1,0 +1,37 @@
+.commentContainer {
+    display: flex;
+    flex-direction: row;    
+    column-gap: 5px;
+    padding: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.commentImage {
+    width: 9%;
+    height: 23%;
+    background-color: red;
+    border-radius: 100%;
+}   
+
+.commentContent {
+    width: 90%;
+}
+
+.commentAuthor {
+}
+
+.commentTextContent {
+}
+
+.likeButton {
+    background-color: black;
+    margin-top: 10px;
+}
+
+.dislikeButton {
+    background-color: black;
+}
+
+.pElement {
+    margin: 0;
+}
