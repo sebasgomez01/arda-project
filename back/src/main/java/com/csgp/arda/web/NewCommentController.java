@@ -8,9 +8,10 @@ import com.csgp.arda.domain.Post;
 import com.csgp.arda.domain.PostRepository;
 import com.csgp.arda.domain.User;
 import com.csgp.arda.domain.UserRepository;
+import com.csgp.arda.domain.event.PostInteractionEvent;
+import com.csgp.arda.domain.event.PostInteractionEvent.InteractionType;
 
-
-
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -29,13 +30,15 @@ public class NewCommentController {
     private final UserRepository userRepository; 
     private final JwtService jwtService;
     private final PostRepository postRepository;
+    private final ApplicationEventPublisher eventPublisher;
 
     public NewCommentController(CommentRepository commentRepository, UserRepository userRepository, 
-    JwtService jwtService, PostRepository postRepository) {
+    JwtService jwtService, PostRepository postRepository, ApplicationEventPublisher eventPublisher) {
         this.commentRepository = commentRepository;
         this.userRepository = userRepository;
         this.jwtService = jwtService;
         this.postRepository = postRepository;
+        this.eventPublisher = eventPublisher;
     }
 
     @PostMapping("/comments")
@@ -61,6 +64,9 @@ public class NewCommentController {
         // Guardar el comentario en la base de datos
         commentRepository.save(createdComment);
         
+        // publico el evento para generar la notificación asociada
+        eventPublisher.publishEvent(new PostInteractionEvent(post.getId(), user.getId(), InteractionType.COMMENT));
+
         // Construir la URI del nuevo recurso creado
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(uriBuilder.path("/comments/{id}")

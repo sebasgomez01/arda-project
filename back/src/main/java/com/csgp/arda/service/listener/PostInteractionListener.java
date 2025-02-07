@@ -30,7 +30,7 @@ public class PostInteractionListener {
             case LIKE -> handleLike(event);
             case DISLIKE -> handleDislike(event);
             case REPOST -> handleRepost(event);
-            case COMMENT -> handleRepost(event);
+            case COMMENT -> handleComment(event);
         }
     }
 
@@ -69,4 +69,15 @@ public class PostInteractionListener {
         notificactionRepository.save(notificacion);    
         System.out.println("Post " + event.getPostId() + " fue repostado por " + event.getUserId());
     }
+
+    private void handleComment(PostInteractionEvent event) {
+        User causedBy = userRepository.findById(event.getUserId()).get();
+        Post post = postRepository.findById(event.getPostId()).get();
+        User receivedBy = post.getUser();
+
+        String textContent = causedBy.getUsername() + " comment your post"; 
+        Notification notificacion = new Notification(textContent, causedBy, receivedBy, post);
+        notificactionRepository.save(notificacion);    
+    }
 }
+

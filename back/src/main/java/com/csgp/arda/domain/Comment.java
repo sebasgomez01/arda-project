@@ -20,9 +20,9 @@ public class Comment {
     private String textContent;
     
     // relación con la entidad User para identificar al usuario que hizo el comentario
-    @ManyToOne(fetch=FetchType.EAGER)
+    @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="user_id")
-    @JsonIgnore
+    //@JsonIgnore
     private User user;
 
     

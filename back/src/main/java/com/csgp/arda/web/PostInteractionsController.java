@@ -81,10 +81,6 @@ public class PostInteractionsController {
         } 
     }
 
-    private void deletePostNotifications(Post post) {
-        notificationRepository.deleteAllByPostId(post.getId());   
-    }
-
     private HttpHeaders buildURI(UriComponentsBuilder uriBuilder, Long id) {
         // Construir la URI del nuevo recurso creado
         HttpHeaders headers = new HttpHeaders();
