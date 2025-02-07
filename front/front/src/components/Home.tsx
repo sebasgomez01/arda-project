@@ -7,12 +7,14 @@ import NotificationList from "./NotificationList"
 import CommentModal from "./CommentModal";
 import { useState } from "react";
 import CommentForm from "./CommentForm";
+import { PostCommentData } from "../types";
 
 const Home = () => {
     
     const [newPostMessage, setNewPostMessage] = useState<string>('');
     const [reloadPosts, setReloadPosts] = useState<boolean>(false);
     const [showCommentModal, setShowCommentModal] = useState<boolean>(false);
+    const [postCommentData, setPostCommentData] = useState<PostCommentData>({textContent: "", post: {id: ""}, user: "" });
 
     return (
         <>
@@ -27,14 +29,14 @@ const Home = () => {
             <div className="center">
                 <CenterNewPost setNewPostMessage={setNewPostMessage} setReloadPosts={setReloadPosts} />
                 <Postlist newPostMessage={newPostMessage} reloadPosts={reloadPosts} setReloadPosts={setReloadPosts} 
-                setShowCommentModal={setShowCommentModal}/>
+                setShowCommentModal={setShowCommentModal} setPostCommentData={setPostCommentData} />
             </div>
             <div className="right">
                 <h2 className='logo'>Notifications</h2>
                 <NotificationList />
             </div>
             <CommentModal isOpen={showCommentModal} onClose={() => setShowCommentModal(false)} >
-                <CommentForm />
+                <CommentForm postCommentData={postCommentData} setShowCommentModal={setShowCommentModal} />
             </CommentModal>
         </>
     );

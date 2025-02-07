@@ -1,5 +1,6 @@
 import '../assets/CenterPost.css'
 import apiClient from '../axiosConfig';
+import { PostCommentData } from '../types.ts'
 
 type CenterPostProps = {
     title: string,
@@ -11,6 +12,7 @@ type CenterPostProps = {
     setReloadPosts: React.Dispatch<React.SetStateAction<boolean>>
     reloadPosts: boolean;
     setShowCommentModal: React.Dispatch<React.SetStateAction<boolean>>
+    setPostCommentData: React.Dispatch<React.SetStateAction<PostCommentData>>
 }
 /*
 const deleteElem = async () => {
@@ -43,6 +45,7 @@ const deleteElem = async () => {
   }
 
   const handleComment = () => {
+    props.setPostCommentData( { textContent: "", post: {id: props.id}, user: "" } );
     props.setShowCommentModal(true);
   }
 
@@ -77,3 +80,5 @@ export default CenterPost;
             <img className="centerPostProfileImg" src="#" alt="Imagen de marcador de posición"></img>
         </div>
  */
+
+        

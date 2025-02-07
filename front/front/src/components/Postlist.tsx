@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig } from "axios";
 import apiClient from "../axiosConfig";
 import { useQuery } from '@tanstack/react-query';
-import { PostResponse, UserResponse } from "../types";
+import { PostResponse, UserResponse, PostCommentData } from "../types";
 import CenterPost from "./CenterPost";
 import { useState, useEffect } from 'react';
 
@@ -22,15 +22,16 @@ interface ComponentBProps {
     newPostMessage: string;
     setReloadPosts: React.Dispatch<React.SetStateAction<boolean>>
     setShowCommentModal: React.Dispatch<React.SetStateAction<boolean>>
+    setPostCommentData: React.Dispatch<React.SetStateAction<PostCommentData>>
     reloadPosts: boolean;
 }
 
 
 
-const Postlist: React.FC<ComponentBProps> = ( {newPostMessage, reloadPosts, setReloadPosts, setShowCommentModal} ) => {
+const Postlist: React.FC<ComponentBProps> = ( props: ComponentBProps ) => {
     const [posts, setPosts] = useState<PostResponse[]>([]); 
 
-    console.log( newPostMessage )
+    console.log( props.newPostMessage )
 
     useEffect(() => {
       const getPosts = async (): Promise<PostResponse[]> => {
@@ -44,8 +45,8 @@ const Postlist: React.FC<ComponentBProps> = ( {newPostMessage, reloadPosts, setR
       }
 
       getPosts();
-      setReloadPosts(false);
-    }, [reloadPosts]);
+      props.setReloadPosts(false);
+    }, [props.reloadPosts]);
     
     function getPostId(url: string): string {
       return url.substring(url.lastIndexOf("/") + 1);
@@ -66,9 +67,10 @@ const Postlist: React.FC<ComponentBProps> = ( {newPostMessage, reloadPosts, setR
                       imageBool={true}
                       srcImage={post.imagePath}
                       id={postId}
-                      setReloadPosts={setReloadPosts}
-                      reloadPosts={reloadPosts}
-                      setShowCommentModal={setShowCommentModal}
+                      setReloadPosts={props.setReloadPosts}
+                      reloadPosts={props.reloadPosts}
+                      setShowCommentModal={props.setShowCommentModal}
+                      setPostCommentData= {props.setPostCommentData}
                     />
                   );
               })

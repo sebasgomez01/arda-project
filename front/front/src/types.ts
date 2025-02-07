@@ -58,3 +58,11 @@ export type UserResponse = {
         }
     }
 }
+
+export type PostCommentData = {
+    textContent: string,
+    post: {
+        id: string
+    }, 
+    user: string   
+}

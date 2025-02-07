@@ -1,16 +1,32 @@
 import "../assets/CommentForm.css"
 import { useState } from 'react';
+import { PostCommentData } from "../types";
+import apiClient from "../axiosConfig";
 
-const CommentForm = () => {
+type CommentFormProps =  {
+    postCommentData: PostCommentData;
+    setShowCommentModal: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+const CommentForm = (props: CommentFormProps) => {
     const [textContent, setTextContent] = useState<string>('');
 
-    const handleSubmit = () => {
 
+    const handleSubmit = async () => {
+        props.postCommentData.textContent = textContent;
+        try {
+            const response = await apiClient.post("/comments", props.postCommentData);
+            console.log(response);
+            setTextContent("");
+            props.setShowCommentModal(false);
+        } catch(error) {
+            console.error('Error sending comment', error);
+        }
     }
 
     return (
         <div className='commentFormContainer'>
-            <p>Comentario al post NombreDelPost de Autor</p>
+
             
             <div className='commentFormContent'> 
                 <form className="commentFormContentForm" onSubmit={handleSubmit}>
