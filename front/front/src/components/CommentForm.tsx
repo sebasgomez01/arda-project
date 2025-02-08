@@ -5,7 +5,7 @@ import apiClient from "../axiosConfig";
 
 type CommentFormProps =  {
     postCommentData: PostCommentData;
-    setShowCommentModal: React.Dispatch<React.SetStateAction<boolean>>
+    setShowCommentModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const CommentForm = (props: CommentFormProps) => {
@@ -15,6 +15,9 @@ const CommentForm = (props: CommentFormProps) => {
     const handleSubmit = async () => {
         props.postCommentData.textContent = textContent;
         props.postCommentData.user = null;
+
+        console.log("ID DEL POST QUE COMENTÉ: ", props.postCommentData.post.id);
+        console.log("postCommentData: ", props.postCommentData);
         try {
             const response = await apiClient.post("/comments", props.postCommentData);
             console.log(response);

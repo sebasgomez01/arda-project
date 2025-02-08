@@ -89,6 +89,7 @@ public class SecurityConfig {
                     .requestMatchers(HttpMethod.POST, "/users/credentials").permitAll()
                     .requestMatchers(HttpMethod.POST, "/users/login").permitAll()
                     .requestMatchers(HttpMethod.GET,"/posts/image/**").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/").permitAll()
                     .anyRequest()    
                     .authenticated())
             .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class) // agrego el filtro para autenticación en cada petición

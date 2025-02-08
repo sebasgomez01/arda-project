@@ -8,6 +8,7 @@ import CommentList from "./CommentList";
 import CommentModal from "./CommentModal";
 import { useState } from "react";
 import CommentForm from "./CommentForm";
+import CenterPostWIthComments from './CenterPostWithComments';
 import { PostCommentData } from "../types";
 
 
@@ -30,10 +31,11 @@ const Home = () => {
             </div>
             <div className="center">
                 <CenterNewPost setNewPostMessage={setNewPostMessage} setReloadPosts={setReloadPosts} />
-                <CommentList />
                 <Postlist newPostMessage={newPostMessage} reloadPosts={reloadPosts} setReloadPosts={setReloadPosts} 
                 setShowCommentModal={setShowCommentModal} setPostCommentData={setPostCommentData} />
                 
+                <CenterPostWIthComments newPostMessage={newPostMessage} reloadPosts={reloadPosts} setReloadPosts={setReloadPosts} 
+                setShowCommentModal={setShowCommentModal} setPostCommentData={setPostCommentData}/>
             </div>
             <div className="right">
                 <h2 className='logo'>Notifications</h2>

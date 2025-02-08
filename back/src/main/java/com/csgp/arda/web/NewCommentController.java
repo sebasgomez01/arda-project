@@ -57,10 +57,10 @@ public class NewCommentController {
         System.out.println(user);
         // obtengo el post correspondiente
         Post post = postRepository.findById(comment.getPost().getId()).get();
-        System.out.println(post);
+        System.out.println("postid:_" + post.getId());
         // Crear el nuevo comentario
         Comment createdComment = new Comment(comment.getTextContent(), user, post);
-        
+            
         // Guardar el comentario en la base de datos
         commentRepository.save(createdComment);
         

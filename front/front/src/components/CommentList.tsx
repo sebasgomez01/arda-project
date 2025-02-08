@@ -2,17 +2,24 @@ import '../assets/CommentList.css'
 import { useState, useEffect } from 'react';
 import apiClient from '../axiosConfig';
 import Comment from './Comment';
-import {CommentResponse} from '../types.ts'
+import {CommentResponse, PostCommentData} from '../types.ts'
 
-const CommentList = (  ) => {
+type CommentListProps = {
+      postId: string;
+      reloadPosts: boolean;
+      setReloadPosts: React.Dispatch<React.SetStateAction<boolean>>;
+      setShowCommentModal: React.Dispatch<React.SetStateAction<boolean>>;
+      setPostCommentData: React.Dispatch<React.SetStateAction<PostCommentData>>;
+}
+
+const CommentList = (props: CommentListProps) => {
     const [comments, setComments] = useState<CommentResponse[]>([]); 
-
 
     useEffect(() => {
       const getComments = async () => {
-        const response = await apiClient.get(`/comments`);
+        const response = await apiClient.get(`/posts/${props.postId}/comments`);
         console.log("response:", response);
-        console.log("data:", response.data);
+        console.log("COMENTARIOS DEL POST 1:", response.data);
         setComments(response.data._embedded.comments);
         return response.data;
       }
@@ -21,6 +28,8 @@ const CommentList = (  ) => {
       //props.setReloadPosts(false);
     }, [/*props.reloadPosts*/]);
     
+    
+
     return (
          <>
             {comments.map((comment: CommentResponse) => {
