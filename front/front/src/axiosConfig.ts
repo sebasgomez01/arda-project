@@ -13,7 +13,7 @@ const apiClient = axios.create({
 apiClient.interceptors.request.use(
   (config) => {
     const token = sessionStorage.getItem('jwt_token');
-    if (token) {
+    if (token != 'null') {
       config.headers['Authorization'] = token;
     }
     return config;

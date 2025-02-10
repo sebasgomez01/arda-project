@@ -1,3 +1,22 @@
+export type PostData = {
+    title: string,
+    textContent: string,
+    user: string,
+    imageBool: boolean,
+    srcImage: string,
+    id: string
+}
+
+export type PostCommentData = {
+    textContent: string,
+    post: {
+        id: string
+    }, 
+    user: string   
+}
+
+
+
 export type PostResponse = {
     user: {
         name: string,
@@ -59,13 +78,6 @@ export type UserResponse = {
     }
 }
 
-export type PostCommentData = {
-    textContent: string,
-    post: {
-        id: string
-    }, 
-    user: string   
-}
 
 export type CommentResponse = {
     id: string,

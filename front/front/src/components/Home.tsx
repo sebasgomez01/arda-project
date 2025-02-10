@@ -4,12 +4,11 @@ import '../assets/Home.css'
 import CenterNewPost from "./CenterNewPost";
 import Postlist from "./Postlist"
 import NotificationList from "./NotificationList"
-import CommentList from "./CommentList";
 import CommentModal from "./CommentModal";
 import { useState } from "react";
 import CommentForm from "./CommentForm";
 import CenterPostWIthComments from './CenterPostWithComments';
-import { PostCommentData } from "../types";
+import { PostCommentData, PostData } from "../types";
 
 
 const Home = () => {
@@ -18,6 +17,16 @@ const Home = () => {
     const [reloadPosts, setReloadPosts] = useState<boolean>(false);
     const [showCommentModal, setShowCommentModal] = useState<boolean>(false);
     const [postCommentData, setPostCommentData] = useState<PostCommentData>({textContent: "", post: {id: ""}, user: "" });
+    const [showPostWithComments, setShowPostWithComments] = useState<boolean>(false);
+    const [reloadComments, setREloadComments] = useState<boolean>(false);
+    const [postData, setPostData] = useState<PostData>({
+        title: "",
+        textContent: "",
+        user: "",
+        imageBool: false,
+        srcImage: "",
+        id: ""
+    });
 
     return (
         <>
@@ -30,19 +39,24 @@ const Home = () => {
                 <LeftBarPostButton />
             </div>
             <div className="center">
-                <CenterNewPost setNewPostMessage={setNewPostMessage} setReloadPosts={setReloadPosts} />
-                <Postlist newPostMessage={newPostMessage} reloadPosts={reloadPosts} setReloadPosts={setReloadPosts} 
-                setShowCommentModal={setShowCommentModal} setPostCommentData={setPostCommentData} />
+                { !showPostWithComments && <CenterNewPost setNewPostMessage={setNewPostMessage} setReloadPosts={setReloadPosts} /> }
+                { !showPostWithComments && <Postlist newPostMessage={newPostMessage} reloadPosts={reloadPosts} setReloadPosts={setReloadPosts} 
+                setShowCommentModal={setShowCommentModal} setPostCommentData={setPostCommentData} 
+                setShowPostWithComments={setShowPostWithComments} 
+                setPostData={setPostData} /> }
                 
-                <CenterPostWIthComments newPostMessage={newPostMessage} reloadPosts={reloadPosts} setReloadPosts={setReloadPosts} 
-                setShowCommentModal={setShowCommentModal} setPostCommentData={setPostCommentData}/>
+                { showPostWithComments && <CenterPostWIthComments newPostMessage={newPostMessage} reloadPosts={reloadPosts} setReloadPosts={setReloadPosts} 
+                setShowCommentModal={setShowCommentModal} setPostCommentData={setPostCommentData}
+                postData={postData} setShowPostWithComments={setShowPostWithComments} setPostData={setPostData}
+                reloadComments={reloadComments} setReloadComments={setREloadComments}
+                />}
             </div>
             <div className="right">
                 <h2 className='logo'>Notifications</h2>
                 <NotificationList />
             </div>
             <CommentModal isOpen={showCommentModal} onClose={() => setShowCommentModal(false)} >
-                <CommentForm postCommentData={postCommentData} setShowCommentModal={setShowCommentModal} />
+                <CommentForm postCommentData={postCommentData} setShowCommentModal={setShowCommentModal} setReloadComments={setREloadComments} />
             </CommentModal>
         </>
     );

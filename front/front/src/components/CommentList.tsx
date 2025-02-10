@@ -7,6 +7,8 @@ import {CommentResponse, PostCommentData} from '../types.ts'
 type CommentListProps = {
       postId: string;
       reloadPosts: boolean;
+      reloadComments: boolean
+      setReloadComments: React.Dispatch<React.SetStateAction<boolean>>;
       setReloadPosts: React.Dispatch<React.SetStateAction<boolean>>;
       setShowCommentModal: React.Dispatch<React.SetStateAction<boolean>>;
       setPostCommentData: React.Dispatch<React.SetStateAction<PostCommentData>>;
@@ -25,10 +27,12 @@ const CommentList = (props: CommentListProps) => {
       }
 
       getComments();
-      //props.setReloadPosts(false);
-    }, [/*props.reloadPosts*/]);
+      props.setReloadComments(false);
+    }, [props.reloadComments]);
     
-    
+    function getCommentId(url: string): string {
+      return url.substring(url.lastIndexOf("/") + 1);
+    }
 
     return (
          <>
@@ -38,6 +42,7 @@ const CommentList = (props: CommentListProps) => {
                   name={comment.user.name}
                   username={comment.user.username}
                   textContent={comment.textContent}
+                  id={getCommentId(comment._links.self.href)}
                 />
             })}
          </> 

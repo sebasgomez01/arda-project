@@ -1,6 +1,6 @@
 import '../assets/CenterPost.css'
 import apiClient from '../axiosConfig';
-import { PostCommentData } from '../types.ts'
+import { PostData, PostCommentData } from '../types.ts'
 
 type CenterPostProps = {
     title: string,
@@ -12,35 +12,19 @@ type CenterPostProps = {
     setReloadPosts: React.Dispatch<React.SetStateAction<boolean>>
     reloadPosts: boolean;
     setShowCommentModal: React.Dispatch<React.SetStateAction<boolean>>
+    setShowPostWithComments: React.Dispatch<React.SetStateAction<boolean>>
     setPostCommentData: React.Dispatch<React.SetStateAction<PostCommentData>>
+    setPostData: React.Dispatch<React.SetStateAction<PostData>>
 }
-/*
-const deleteElem = async () => {
-  // Realizo la petición DELETE
-  apiClient.delete(`/posts/${bookID}`)
-    .then(response => {
-      //console.log('Libro eliminado correctamente', response.data);
-    deleteEvent();
-    })
-    .catch(error => {
-      //console.error('Error al eliminar el libro', error);
-    emit('sessionExpired');
-    });
 
-    
-      // Ejecuto la función deleteEvent que emite el evento deleteItem para que lo escuche el componente App.vue
-    ;
-}
-  */
-
-  const CenterPost = (props: CenterPostProps) => {
+const CenterPost = (props: CenterPostProps) => {
   
   const handleLike = async () => {
-    const response = await apiClient.patch(`/posts/like/${props.id}`);
+    await apiClient.patch(`/posts/like/${props.id}`);
   } 
 
   const handleDelete = async () => {
-    const response = await apiClient.delete(`/posts/${props.id}`); 
+    await apiClient.delete(`/posts/${props.id}`); 
     props.setReloadPosts(true);
   }
 
@@ -49,23 +33,43 @@ const deleteElem = async () => {
     props.setShowCommentModal(true);
   }
 
+  const handleRepost = async () => {
+    await apiClient.patch(`/posts/repost/${props.id}`); 
+    
+  }
+
+  const handleClick = () => {
+    props.setPostData({
+      title: props.title,
+      textContent: props.textContent,
+      user: props.user,
+      imageBool: props.imageBool,
+      srcImage: props.srcImage,
+      id: props.id
+
+    })
+    props.setShowPostWithComments(true)
+  }
+
   return (
-    <div className="centerPostContainer">
-      
+
+    <div className="centerPostContainer" >
+         
       
         <div className="centerPostContentContainer">
             <h3 className="centerPostContentAuthorInfo">{props.title} </h3>
             <h5 className="centerPostContentAuthorInfo">from: {props.user} </h5>
-            <div className="centerPostContent">
+            <div className="centerPostContent" onClick={handleClick}>
                 <p className="centerPostContentText"> {props.textContent} </p>
                 { props.srcImage && <img className='centerPostImage' src={ `${import.meta.env.VITE_API_URL}/posts/image/${props.srcImage}`} alt="Imagen del post"></img> }
                 { props.srcImage && <p className="centerPostImgInfo"></p> }
-                <div className="centerPostButtons">
+                
+            </div>
+            <div className="centerPostButtons">
                   <button className='postButton' onClick={handleLike} >Me gusta</button>
                   <button className='postButton' onClick={handleComment} >Comentar</button>
-                  <button className='postButton'>Editar</button>
+                  <button className='postButton'onClick={handleRepost}>Repost</button>
                   <button className='postButton' onClick={handleDelete}>Eliminar</button>
-                </div>
             </div>
         </div>
     </div>

@@ -6,6 +6,7 @@ import apiClient from "../axiosConfig";
 type CommentFormProps =  {
     postCommentData: PostCommentData;
     setShowCommentModal: React.Dispatch<React.SetStateAction<boolean>>;
+    setReloadComments: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const CommentForm = (props: CommentFormProps) => {
@@ -23,6 +24,7 @@ const CommentForm = (props: CommentFormProps) => {
             console.log(response);
             setTextContent("");
             props.setShowCommentModal(false);
+            props.setReloadComments(true);
         } catch(error) {
             console.error('Error sending comment', error);
         }

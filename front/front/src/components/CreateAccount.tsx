@@ -36,7 +36,7 @@ const CreateAccount = () => {
         <>
              <div className='createAccountModalContainer'>
                 <div className='createAccountModal'>
-                    <h2 className='loginModalTitle'>holacaradebola</h2>
+                    <h2 className='loginModalTitle'>Sign up</h2>
                     <form className='loginForm' onSubmit={handleSubmit}>
                         <label htmlFor="name"></label>
                         <input 

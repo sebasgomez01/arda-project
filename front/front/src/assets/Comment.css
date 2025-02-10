@@ -7,8 +7,8 @@
 }
 
 .commentImage {
-    width: 9%;
-    height: 23%;
+    width: 40px;
+    height: 40px;
     background-color: red;
     border-radius: 100%;
 }   

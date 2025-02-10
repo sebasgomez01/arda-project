@@ -1,28 +1,16 @@
-import axios, { AxiosRequestConfig } from "axios";
 import apiClient from "../axiosConfig";
 import { useQuery } from '@tanstack/react-query';
-import { PostResponse, UserResponse, PostCommentData } from "../types";
+import { PostResponse, UserResponse, PostCommentData, PostData } from "../types";
 import CenterPost from "./CenterPost";
 import { useState, useEffect } from 'react';
-
-/*
-  const replaceLinkByUsername = async (post: PostResponse) => {
-      const hrefUser = post._links.user.href;
-      const updatedUrl = hrefUser.replace("http://localhost:8080", import.meta.env.VITE_API_URL);
-      const response = await axios.get(updatedUrl); // obtengo
-      const user: UserResponse = response.data;
-      console.log("response: ", response);
-      console.log("user: ", user);
-      return user.username;
-  }
-*/
-
 
 interface ComponentBProps {
     newPostMessage: string;
     setReloadPosts: React.Dispatch<React.SetStateAction<boolean>>
     setShowCommentModal: React.Dispatch<React.SetStateAction<boolean>>
+    setShowPostWithComments: React.Dispatch<React.SetStateAction<boolean>> 
     setPostCommentData: React.Dispatch<React.SetStateAction<PostCommentData>>
+    setPostData: React.Dispatch<React.SetStateAction<PostData>>
     reloadPosts: boolean;
 }
 
@@ -71,6 +59,8 @@ const Postlist: React.FC<ComponentBProps> = ( props: ComponentBProps ) => {
                       reloadPosts={props.reloadPosts}
                       setShowCommentModal={props.setShowCommentModal}
                       setPostCommentData= {props.setPostCommentData}
+                      setShowPostWithComments={props.setShowPostWithComments}
+                      setPostData={props.setPostData}
                     />
                   );
               })
