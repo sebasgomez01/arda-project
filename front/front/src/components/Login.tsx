@@ -25,7 +25,7 @@ const Login = () => {
         };
         
         // guardo el username en sessionStorage
-        sessionStorage.setItem("username", loginData.username); // guardo el token en sessionStorage
+        //sessionStorage.setItem("username", loginData.username); // guardo el token en sessionStorage
 
         try {
             const response = await apiClient.post("/users/login", loginData, {
@@ -34,13 +34,16 @@ const Login = () => {
                 },
             });
             console.log('Login successful:', response.data);
+            navigate('/home'); // Redirigir a la página de inicio
+            /*
             const jwtToken = response.headers.authorization;
             if (jwtToken !== null) {
                 console.log("El token es:", jwtToken)
                 sessionStorage.setItem("jwt_token", jwtToken); // guardo el token en sessionStorage
-                navigate('/home'); // Redirigir a la página de inicio
+                
                 //setAuth(true);
             }
+            */
         } catch (error) {
             console.error('Error logging in:', error);
         }

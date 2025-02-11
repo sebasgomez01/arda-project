@@ -11,6 +11,8 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import java.security.Key;
 import org.springframework.http.HttpHeaders;
+
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Date;
 
@@ -40,11 +42,44 @@ public class JwtService {
         return token;
     }
 
+    /*
     // función que extrae el token del header Authorization si existe y devuelve el usuario
     // En otro caso devuelve null
-    public String getAuthUser(HttpServletRequest request) {
+    public String getAuthUserFromRequest(HttpServletRequest request) {
         String token = request.getHeader(HttpHeaders.AUTHORIZATION);
         
+        if (token != null) {
+            String user = Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token.replace(PREFIX, ""))
+                .getBody()
+                .getSubject();
+            if (user != null)
+            return user;
+        }
+
+        return null;
+    }
+    */
+
+    public String getJWTfromCookie(HttpServletRequest request) {
+
+        String token = null;
+        if (request.getCookies() != null) {
+            for (Cookie cookie : request.getCookies()) {
+                if (cookie.getName().equals("jwt")) {
+                    token = cookie.getValue();
+                    break;
+                }
+            }
+        }
+        return token;
+    }
+
+    public String getAuthUser(HttpServletRequest request) {
+        String token = getJWTfromCookie(request);        
+
         if (token != null) {
             String user = Jwts.parserBuilder()
                 .setSigningKey(key)

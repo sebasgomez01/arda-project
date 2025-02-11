@@ -23,13 +23,11 @@ public class AuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
         throws ServletException, java.io.IOException {
-            // extraigp el token del header
-            String jwt = request.getHeader(HttpHeaders.AUTHORIZATION);
-            //jwt = jwt.substring(7);
-            if(jwt != null) {
-                // si el token no es nulo, obtengo el usuario y lo autentico
-                String username = jwtService.getAuthUser(request);
-                jwt = jwt.substring(7);
+            String jwt = jwtService.getJWTfromCookie(request);
+            String username = jwtService.getAuthUser(request);
+
+            if(username != null && jwt != null) {
+                // si el username autenticado y el token no son nulos, valido el token y autentico el usuario            
                 if(jwtService.validateToken(jwt, username)) {
                     Authentication authenticaction = new UsernamePasswordAuthenticationToken(username, 
                     null, java.util.Collections.emptyList());
