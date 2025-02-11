@@ -1,18 +1,26 @@
 import Notification from './Notification';
 import '../assets/NotificationList.css'
+import useSSE from '../useSSE';
+import { NotificationData } from '../types';
 
 const NotificationList = () => {
+    const notifications = useSSE();
 
     return (
     <div id='notificationListContainer'>
-        <Notification/>
-        <Notification/>
-        <Notification/>
-        <Notification/>
-        <Notification/>
-        <Notification/>
-        <Notification/>
-        <Notification/>
+        {notifications.map((n) => {
+            return (
+                <Notification
+                    key={n.id}
+                    id={n.id}
+                    textContent={n.textContent}
+                    causedBy={n.causedBy}
+                    receivedBy={n.receivedBy}
+                    post={n.post}
+                    comment={n.comment}
+                />
+            );
+        })}
     </div>
     );
 };

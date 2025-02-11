@@ -1,13 +1,12 @@
 import '../assets/Notification.css'
+import { NotificationData } from '../types';
 
-
-
-const Notification = () => {
+const Notification = (props: NotificationData) => {
     return (
         <>
             <div id='notificationContainer'>
                 <img id='notificationImage' src='#'></img>
-                <p id='notificationText'> @lalolando likes your post </p>
+                <p id='notificationText'> {props.textContent} </p>
             </div>
         </>
     );    

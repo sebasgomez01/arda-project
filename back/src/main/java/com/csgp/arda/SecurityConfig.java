@@ -59,7 +59,8 @@ public class SecurityConfig {
         CorsConfiguration config = new CorsConfiguration();
         // permito todos los orígenes, todos los métodos y todos los headers
         // ESTO TENGO QUE CAMBIARLO DESPUÉS ANTES DE HACER EL DEPLOY, UNA VEZ QUE TENGO EL FRONTEND 
-        config.setAllowedOrigins(Arrays.asList("https://congenial-barnacle-qg7qqr744qxf64gv-5173.app.github.dev"));
+        config.setAllowedOrigins(Arrays.asList("https://congenial-barnacle-qg7qqr744qxf64gv-5173.app.github.dev",
+        "https://congenial-barnacle-qg7qqr744qxf64gv-5174.app.github.dev"));
         config.setAllowedMethods(Arrays.asList("*"));
         config.setAllowedHeaders(Arrays.asList("*"));
         config.setAllowCredentials(true); // permito los cookies ya que guardo el token en HttpOnly

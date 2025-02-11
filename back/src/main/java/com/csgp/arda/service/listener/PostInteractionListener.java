@@ -10,6 +10,7 @@ import com.csgp.arda.domain.UserRepository;
 import com.csgp.arda.domain.Post;
 import com.csgp.arda.domain.PostRepository;
 import com.csgp.arda.domain.event.PostInteractionEvent;
+import com.csgp.arda.web.NotificationController;
 
 @Component
 public class PostInteractionListener {
@@ -17,11 +18,15 @@ public class PostInteractionListener {
     private final NotificationRepository notificactionRepository;
     private final UserRepository userRepository;
     private final PostRepository postRepository;
+    private final NotificationController notificationController;
 
-    public PostInteractionListener(NotificationRepository notificactionRepository, UserRepository userRepository, PostRepository postRepository) {
+    public PostInteractionListener(NotificationRepository notificactionRepository,
+    UserRepository userRepository, PostRepository postRepository,
+    NotificationController notificationController) {
         this.notificactionRepository = notificactionRepository;
         this.userRepository = userRepository;
         this.postRepository = postRepository;
+        this.notificationController = notificationController;
     }
 
     @EventListener
@@ -44,6 +49,9 @@ public class PostInteractionListener {
         Notification notificacion = new Notification(textContent, causedBy, receivedBy, post);
         notificactionRepository.save(notificacion);    
 
+        // mando la notificación al front
+        notificationController.sendNotification(notificacion);
+
         System.out.println("Post " + event.getPostId() + " recibió un like de " + event.getUserId());
     }
 
@@ -56,6 +64,9 @@ public class PostInteractionListener {
         Notification notificacion = new Notification(textContent, causedBy, receivedBy, post);
         notificactionRepository.save(notificacion);    
 
+        // mando la notificación al front
+        notificationController.sendNotification(notificacion);
+
         System.out.println("Post " + event.getPostId() + " recibió un dislike de " + event.getUserId());
     }
 
@@ -67,6 +78,8 @@ public class PostInteractionListener {
         String textContent = causedBy.getUsername() + " repost your post"; 
         Notification notificacion = new Notification(textContent, causedBy, receivedBy, post);
         notificactionRepository.save(notificacion);    
+        // mando la notificación al front
+        notificationController.sendNotification(notificacion);
         System.out.println("Post " + event.getPostId() + " fue repostado por " + event.getUserId());
     }
 
@@ -78,6 +91,8 @@ public class PostInteractionListener {
         String textContent = causedBy.getUsername() + " comment your post"; 
         Notification notificacion = new Notification(textContent, causedBy, receivedBy, post);
         notificactionRepository.save(notificacion);    
+        // mando la notificación al front
+        notificationController.sendNotification(notificacion);
     }
 }
 

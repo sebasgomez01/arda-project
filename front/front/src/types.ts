@@ -15,6 +15,15 @@ export type PostCommentData = {
     user: string   
 }
 
+export type NotificationData = {
+  id: string;
+  textContent: string;
+  //createdAt: string;
+  causedBy: { name: string; username: string };
+  receivedBy: { name: string; username: string };
+  post?: PostResponse;
+  comment?: CommentResponse;
+}
 
 
 export type PostResponse = {

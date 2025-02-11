@@ -71,6 +71,11 @@ public class Notification {
         return this.getTextContent();
     }
 
+    public User getReceivedBy() {
+        return this.receivedBy;
+    }
+
+
     void setId(Long id) {
         this.id = id;
     } 
@@ -78,5 +83,6 @@ public class Notification {
     void setTextContent(String textContent) {
         this.textContent = textContent;
     }
+
 
 }
