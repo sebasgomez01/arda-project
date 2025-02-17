@@ -4,13 +4,19 @@ import jakarta.persistence.*;
 
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 @Entity
+//@JsonIgnoreProperties({"receivedBy", "causedBy", "post", "comment"})  // Evita loops pero serializa bien
+@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 public class Notification {
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(nullable = false, updatable = false)
+    @JsonProperty("id")  // Asegura que se serializa
     private Long id;
 
     private String textContent;
@@ -75,6 +81,17 @@ public class Notification {
         return this.receivedBy;
     }
 
+    public User getCausedBy() {
+        return this.causedBy;
+    }
+
+    public Post getPost() {
+        return this.post;
+    }
+
+    public Comment getComment() {
+        return this.comment;
+    }
 
     void setId(Long id) {
         this.id = id;
@@ -84,5 +101,20 @@ public class Notification {
         this.textContent = textContent;
     }
 
+    void setCausedBy(User causedBy) {
+        this.causedBy = causedBy;
+    }
+
+    void setReceivedBy(User receivedBy) {
+        this.receivedBy = receivedBy;
+    }
+
+    void setComment(Comment comment) {
+        this.comment = comment;
+    }
+
+    void setPost(Post post) {
+        this.post = post;
+    } 
 
 }

@@ -11,6 +11,10 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
 import com.csgp.arda.domain.Notification;
 import com.csgp.arda.domain.User;
 import com.csgp.arda.domain.UserRepository;
@@ -20,12 +24,13 @@ import jakarta.servlet.http.HttpServletResponse;
 //@RepositoryRestController
 @RestController
 @RequestMapping("/notifications")
-@CrossOrigin(origins = "https://congenial-barnacle-qg7qqr744qxf64gv-5173.app.github.dev", allowCredentials = "true")
+@CrossOrigin
 public class NotificationController {
 
     // Mapa para asociar cada usuario con su lista de conexiones SSE
     private static final Map<Long, SseEmitter> emitters = new ConcurrentHashMap<>();
     private final UserRepository userRepository;
+    private final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
 
     public NotificationController(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -74,6 +79,23 @@ public class NotificationController {
         emitter.onCompletion(() -> emitters.remove(userId));
         emitter.onTimeout(() -> emitters.remove(userId));
 
+        // 🔥 Enviar evento de prueba cuando el cliente se conecta
+        try {
+            emitter.send(SseEmitter.event().name("connected").data("Conexión establecida"));
+            System.out.println("MENSAJE INICIAL ENVIADO");
+        } catch (IOException e) {
+            emitter.complete();
+        }
+
+            // 🔥 Mantener viva la conexión con un "ping"
+        scheduler.scheduleAtFixedRate(() -> {
+            try {
+                emitter.send(SseEmitter.event().name("ping").data("keep-alive"));
+            } catch (IOException e) {
+                emitter.complete();
+            }
+        }, 10, 30, TimeUnit.SECONDS); // Cada 30 segundos
+
         System.out.println("*********************************************************************************");
         System.out.println("\n \n \n \n \n \n \n ");
         System.out.println("Entre al controlador start connection 4");
@@ -107,5 +129,5 @@ public class NotificationController {
             }
         }
     }
-
 }
+

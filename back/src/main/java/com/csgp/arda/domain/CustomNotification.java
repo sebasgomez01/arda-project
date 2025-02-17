@@ -6,5 +6,6 @@ import org.springframework.data.rest.core.config.Projection;
 public interface CustomNotification {
     Long getId();
     String getTextContent();
-    User getUser();
+    User getReceivedBy();
+    
 }

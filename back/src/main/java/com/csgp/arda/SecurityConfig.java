@@ -90,6 +90,7 @@ public class SecurityConfig {
                     .requestMatchers(HttpMethod.POST, "/users/credentials").permitAll()
                     .requestMatchers(HttpMethod.POST, "/users/login").permitAll()
                     .requestMatchers(HttpMethod.GET,"/posts/image/**").permitAll()
+                    //.requestMatchers(HttpMethod.GET,"/notifications").permitAll()
                     .requestMatchers(HttpMethod.GET, "/").permitAll()
                     .anyRequest()    
                     .authenticated())

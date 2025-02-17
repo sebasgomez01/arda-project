@@ -8,7 +8,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import jakarta.transaction.Transactional;
 
-@RepositoryRestResource(path = "notifications", exported = false) // Deshabilita la API REST generada
+//@RepositoryRestResource(path = "notifications", exported = false) // Deshabilita la API REST generada
 public interface NotificationRepository extends CrudRepository<Notification, Long> {
     
     @Transactional
