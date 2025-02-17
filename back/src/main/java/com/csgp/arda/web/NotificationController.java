@@ -3,7 +3,10 @@ package com.csgp.arda.web;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import java.io.IOException;
 import java.util.Map;
@@ -12,7 +15,12 @@ import com.csgp.arda.domain.Notification;
 import com.csgp.arda.domain.User;
 import com.csgp.arda.domain.UserRepository;
 
-@RepositoryRestController
+import jakarta.servlet.http.HttpServletResponse;
+
+//@RepositoryRestController
+@RestController
+@RequestMapping("/notifications")
+@CrossOrigin(origins = "https://congenial-barnacle-qg7qqr744qxf64gv-5173.app.github.dev", allowCredentials = "true")
 public class NotificationController {
 
     // Mapa para asociar cada usuario con su lista de conexiones SSE
@@ -23,11 +31,30 @@ public class NotificationController {
         this.userRepository = userRepository;
     }
 
-    @GetMapping("/notifications")
-    public SseEmitter startConnection() {
+    @GetMapping
+    public SseEmitter startConnection(HttpServletResponse response) {
+        // configuro manualmente los headers CORS para SSE
+        response.setHeader("Access-Control-Allow-Origin", "https://congenial-barnacle-qg7qqr744qxf64gv-5173.app.github.dev");
+        response.setHeader("Access-Control-Allow-Credentials", "true");
+        response.setHeader("Cache-Control", "no-store");
+
+        System.out.println("*********************************************************************************");
+        System.out.println("\n \n \n \n \n \n \n ");
+        System.out.println("Entre al controlador start connection 1");
+        System.out.println("\n \n \n \n \n \n \n ");
+        System.out.println("*********************************************************************************");
+
         // Obtengo el username desde el contexto de seguridad (JWT)
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
+
+        System.out.println("*********************************************************************************");
+        System.out.println("\n \n \n \n \n \n \n ");
+        System.out.println("Entre al controlador start connection 2");
+        System.out.println(username);
+        System.out.println("\n \n \n \n \n \n \n ");
+        System.out.println("*********************************************************************************");
+
 
         // Obtengo el id del usuario
         User user = userRepository.findByUsername(username);
@@ -37,8 +64,22 @@ public class NotificationController {
         SseEmitter emitter = new SseEmitter(Long.MAX_VALUE);
         emitters.put(userId, emitter);
 
+        System.out.println("*********************************************************************************");
+        System.out.println("\n \n \n \n \n \n \n ");
+        System.out.println("Entre al controlador start connection 3");
+        System.out.println(username);
+        System.out.println("\n \n \n \n \n \n \n ");
+        System.out.println("*********************************************************************************");
+
         emitter.onCompletion(() -> emitters.remove(userId));
         emitter.onTimeout(() -> emitters.remove(userId));
+
+        System.out.println("*********************************************************************************");
+        System.out.println("\n \n \n \n \n \n \n ");
+        System.out.println("Entre al controlador start connection 4");
+        System.out.println(username);
+        System.out.println("\n \n \n \n \n \n \n ");
+        System.out.println("*********************************************************************************");
 
         return emitter;
     }
